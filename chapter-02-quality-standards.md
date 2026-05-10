@@ -171,7 +171,7 @@ DRY、深度继承、各类设计模式大量产生于"代码每写一行都贵"
 
 ### 2.2.5 注释与文档：从同步难题到"Single source of truth"
 
-人类时代文档腐化的根因是"写一次很贵 / 改起来更贵"（参见第一章对 Parnas 软件老化的引用）。由于以上论证的AI阅读能力的指数级放大，代码作为"Single source of truth"更为可靠，文档的格式、措辞等问题也不再那么重要。而且基于语言模型的人在回路的开发过程中更多的信息——包括交付物和流程本身——自然被“文档化”，相当于在开发的同时就准备好了CMM评估需要的考察的内容。
+人类时代文档腐化的根因是"写一次很贵 / 改起来更贵"（参见第一章对 Parnas 软件老化的引用）。由于以上论证的AI阅读能力的指数级放大，代码作为"Single source of truth"更为可靠，文档的格式、措辞等问题也不再那么重要。而且基于语言模型的人在回路的开发过程中更多的信息——包括交付物和流程本身——自然被“文档化”，相当于在开发的同时就准备好了CMM评估需要考察的内容。一个很好的例子是 **AI Codebase Maturity Model (ACMM)** 及其示范案例 [19]：把"代码库面向 AI 协作的成熟度"作为可分级评估的指标，对应的演进路径里大量原本属于"另写文档"的工程动作（决策记录、规约、运行时观测、评测套件）都已**内化为代码库自身的一等制品**——文档与代码的边界进一步模糊。
 
 总之软件质量的评价函数已被悄悄改写。它不再只是"对人类 reviewer 友好 + 对长期维护者友好"这**一对人类向偏好**，而是一组新的、**显式承认 AI 既是作者又是读者**的质量约束：
 
@@ -187,7 +187,7 @@ DRY、深度继承、各类设计模式大量产生于"代码每写一行都贵"
 - **2.4 审计与评测**——把质量信号嵌入生成回路，而非事后报告。
 - **2.5 Session + Git 方案**——给"过程"和"产物"提供可追溯、可复现、可分支的版本控制底座。
 
-这些主要针对工程的交付制品(Deliverables)，对于工程的过程和组织的管理标准和方法将在下一章探讨。
+这些主要针对工程的交付制品(Deliverables)，对于工程过程和组织管理的标准和方法将在下一章探讨。
 
 ---
 
@@ -228,3 +228,5 @@ DRY、深度继承、各类设计模式大量产生于"代码每写一行都贵"
 [17] N. Peitek *et al.*, "Studying Developer Eye Movements to Measure Cognitive Workload and Visual Effort for Expertise Assessment," *Proc. ACM Hum.-Comput. Interact. (PACMHCI)*, vol. 7, no. ETRA, Art. 218, 2023. (n = 207 developers; expert vs novice pupil dilation and fixation analysis.) [Online]. Available: <https://dl.acm.org/doi/10.1145/3591135>
 
 [18] X. Xia, L. Bao, D. Lo, Z. Xing, A. E. Hassan, and S. Li, "Measuring Program Comprehension: A Large-Scale Field Study with Professionals," *IEEE Transactions on Software Engineering*, vol. 44, no. 10, pp. 951–976, Oct. 2018. (7 projects, 79 professional developers, 3,244 working hours; ~58% of dev time spent on program comprehension.) [Online]. Available: <https://baolingfeng.github.io/papers/tsecomprehension.pdf>
+
+[19] "AI Codebase Maturity Model (ACMM) and Reference Cases," *arXiv preprint*, arXiv:2604.09388. [Online]. Available: <https://arxiv.org/abs/2604.09388>
