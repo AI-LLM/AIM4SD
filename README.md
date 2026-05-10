@@ -26,3 +26,31 @@
     - [4.3.2 如何在被加速过的生命周期里，让"有效时间"的比例尽可能高](chapter-01-introduction.md#432-如何在被加速过的生命周期里让有效时间的比例尽可能高)
     - [4.3.3 如何创造那些原先因为"无法算 / 做不起"而不存在的新价值](chapter-01-introduction.md#433-如何创造那些原先因为无法算--做不起而不存在的新价值)
 - [参考文献](chapter-01-introduction.md#参考文献)
+
+### 第二章 软件质量新标准
+
+- 全过程的思考与生成记录
+- 审计与评测
+- Session + git 方案
+
+### 第三章 SDLC的有效时间比
+
+- 持续重构与可逆性 (reversibility) 
+- 知识工程
+
+### 第四章 新的价值创造
+
+- 新软件与新开发者
+  - "一次性/每用户级”软件
+  - 弹性软件
+  - 新的开发者
+
+|   | 分类 | 产物重复使用的程度（次数、人和环境差异） | 对视觉设计、测试、商业价值实现等方面的要求 |
+| --- | --- | --- | --- |
+| 1 | Solo developer | 自己重复用 | <br> |
+| 2 | Team/Internal developer | 小范围伙伴一起用 | <br> |
+| 3 | AI Application developer | AI应用产品化 | <br> |
+| 4 | AI Foundation developer | AI技术产品化 | <br> |
+| 5 | Classic software developer | 传统软件项目交付或产品化 | <br> |
+
+- 仿真（Simulation）
