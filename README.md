@@ -29,11 +29,19 @@
 
 ### [第二章 软件质量新标准](chapter-02-quality-standards.md)
 
-AI锯齿状能力中哪些方面超越人类平均水平，带来哪些质量标准的变化：可读性、抽象模式、复用...
-
-- 全过程的思考与生成记录
-- 审计与评测
-- Session + git 方案
+- [2.1 起点：AI 能力的"锯齿状边界" (Jagged Frontier)](chapter-02-quality-standards.md#21-起点ai-能力的锯齿状边界-jagged-frontier)
+  - [2.1.1 在哪些维度上 AI 已稳定超过人类平均](chapter-02-quality-standards.md#211-在哪些维度上-ai-已稳定超过人类平均)
+  - [2.1.2 在哪些维度上 AI 仍低于人类](chapter-02-quality-standards.md#212-在哪些维度上-ai-仍低于人类)
+- [2.2 锯齿对传统软件质量观的几条结构性冲击](chapter-02-quality-standards.md#22-锯齿对传统软件质量观的几条结构性冲击)
+  - [2.2.1 可读性：面向 *谁* 的可读？](chapter-02-quality-standards.md#221-可读性面向-谁-的可读)
+  - [2.2.2 抽象模式：从"减少重复"到"减少不可逆"](chapter-02-quality-standards.md#222-抽象模式从减少重复到减少不可逆)
+  - [2.2.3 复用：从"库"到"能力"](chapter-02-quality-standards.md#223-复用从库到能力)
+  - [2.2.4 测试与覆盖率：从"覆盖"到"可信信号"](chapter-02-quality-standards.md#224-测试与覆盖率从覆盖到可信信号)
+  - [2.2.5 注释与文档：从同步难题到"Single source of truth"](chapter-02-quality-standards.md#225-注释与文档从同步难题到single-source-of-truth)
+- 2.4 全过程的思考与生成记录
+- 2.5 审计与评测
+- 2.6 Session + Git 方案
+- [参考文献](chapter-02-quality-standards.md#参考文献)
 
 ### 第三章 SDLC的有效时间比
 
