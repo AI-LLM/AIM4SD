@@ -38,15 +38,16 @@
   - [2.2.3 复用：从"库"到"能力"](chapter-02-quality-standards.md#223-复用从库到能力)
   - [2.2.4 测试与覆盖率：从"覆盖"到"可信信号"](chapter-02-quality-standards.md#224-测试与覆盖率从覆盖到可信信号)
   - [2.2.5 注释与文档：从同步难题到"Single source of truth"](chapter-02-quality-standards.md#225-注释与文档从同步难题到single-source-of-truth)
-- 2.4 全过程的思考与生成记录
-- 2.5 审计与评测
-- 2.6 Session + Git 方案
+- 2.3 全过程的思考与生成记录
+- 2.4 审计与评测
+- 2.5 Session + Git 方案
 - [参考文献](chapter-02-quality-standards.md#参考文献)
 
 ### 第三章 SDLC的有效时间比
 
-- 持续重构与可逆性 (reversibility) 
-- 知识工程
+- Human In The Agentic-Loop的最佳实践 //👀 ai4se_white_paper/src/chapter3/03-process-engineering.md
+- 持续重构与可逆性 (reversibility) //👀 ai4se_white_paper/src/chapter3/04-architecture-and-complexity.md
+- 知识工程 //👀 ai4se_white_paper/src/chapter3/05-knowledge-engineering.md
 
 ### 第四章 新的价值创造
 
