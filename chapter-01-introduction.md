@@ -181,7 +181,7 @@ sankey-beta
 
 这张表有意挑明：**LLM 没有制造任何全新的失败模式**。它继承了人类智能体在软件工程中的全部既有病，只是把这些病的发作频率从"周/月"压缩到了"秒/分"。
 
-### 1.4.2 那 LLM/Agent 在软件工程中真正改变了什么？——速度，几乎仅此而已
+### 1.4.2 那 LLM/Agent 在软件工程中真正改变了什么？——速度
 
 AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更接近"**加了一个永远不累、能并行 N 倍但有点不靠谱的初/中级工程师**"，而不是"一种新的工程范式"。三条经验性证据：
 
@@ -202,7 +202,7 @@ AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更
   - 评测污染与 benchmark 失真 [31] 的速度也随生成速度上升；
   - 多 agent 协调税 [33] 让"加更多 agent"在 4 个之后边际收益为负——与"加更多人"同律。
 
-这意味着工程实践的重心会从"如何快速构建"，转向**三类新问题**：
+这意味着软件工程实践的重心会从"在不完整信息和持续变化的约束下，对复杂系统做出权衡（trade-offs）决策"，转向**新问题**：
 
 #### 1.4.3.1 如何建立新的质量标准、取得用户信任
 
@@ -218,17 +218,35 @@ AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更
 - **持续重构与可逆性 (reversibility) 取代一次性设计**：腐化加速下，系统的"新陈代谢"必须和"生成"一样快；任何不可回退的决策都会被加速放大成不可挽救的事故，所以可逆性比一次到位更值钱。
 - **外置记忆（PRD、ADR、`fix_plan.md` 这类磁盘上的"组织记忆"）从可有可无变成生命线**——模型自己没有 P3 意义上的真记忆 [26], [27]，正如人类组织自己也没有；不持续沉淀就意味着每次重启都会重新犯同一个错，"有效时间"会被反复浪费在重新发现同一件事上。
 
-#### 1.4.3.3 如何创造那些原先因为"无法算 / 做不起"而不存在的新价值
+#### 1.4.3.3 解除不完整信息和持续变化的约束，创造那些原先因为"不知道 / 无法算 / 做不起"而不存在的新价值
 
-加速并不只有"对称破坏"的一面，也有 **"非对称创造"** 的一面：当一种工程动作的边际成本掉到接近零，原先因为"无法建立解析模型 / 想不过来 / 做不起"而无法进入实践的工作方式会被重新打开。这不是把老事做得更快，而是让原先不存在的事变得**经济上合算**。
+当一种工程动作的边际成本掉到接近零，原先因为**不知道——学不过来、 无法建立解析模型——想不过来、需要太多人和时间——做不起**而无法进入实践的工作会被重新打开，或者解决问题的工作重点完全转移。
 
 1. **Agent-based Simulation 取代有限经验外推**。以往涉及组织、经济、架构、用户行为的设计与决策，工程师只能依赖局部经验 + 过度简化模型推演（费米估算、白板兵棋、单点压测），因为缺少廉价的"在做之前先把它跑一遍"的能力。当 agent 单位成本足够低，可以用 N 个具备不同立场/约束/失败模式的 agent 群体把"系统真实行为"模拟出来，把设计与决策从**凭直觉拍**升级为**可重复、可对比、可灰度的数值实验**——这是经济学 ABM 与运筹学 Monte Carlo 思路向软件工程实践的一次延伸。
 
-2. **大规模并行探索"实现空间"**。传统上一个架构、一次重构、一条性能优化路径，是由 1–2 位资深工程师拍板的——因为同时尝试 50 种实现的人力代价太高。AI Coding 把这项的边际成本压到接近 0 后，**实现选择从"最有经验工程师的一次猜测"变成"对 N 个候选并发跑评测后的择优"**。这相当于把 ML 里 hyperparameter sweep / Neural Architecture Search（NAS，神经架构搜索）那套搬进代码空间——架构、重构、API 设计开始具备可枚举、可基准化的属性，"少数高手凭直觉"被"群体并行 + 自动评测"部分替代。
+2. **大规模并行探索"实现空间"**。传统上一个架构、一次重构、一条性能优化路径，是由 1–2 位资深工程师拍板的——因为同时尝试 50 种实现的人力代价太高。AI Coding 把这项的边际成本压到接近 0 后，**实现选择从"最有经验工程师的一次猜测"变成"对 N 个候选并发跑评测后的择优"**。这相当于把 ML 里 hyperparameter sweep / Neural Architecture Search（NAS，神经架构搜索）那套搬进代码空间——架构、重构、API 设计开始具备可枚举、可基准化的属性，"少数高手凭直觉"被"群体并行 + 自动评测"部分替代。这条思路也与近期"**超越梯度的学习** (learning beyond gradients)"的讨论同源。
+
+François Chollet 在 2026 年 2 月给出一个更直接的断言：**"足够先进的 agentic coding 在本质上就是机器学习"**——工程师设定优化目标（spec）与搜索空间约束（tests），agent 作为优化过程迭代到目标达成；产物（生成出来的代码库）实质上是一个**黑盒模型**——你部署它而不审视内部逻辑，正如我们部署神经网络时不去关心单个权重 [44]。由此推论，**所有经典 ML 问题都会很快变成 agentic coding 的工程问题**：对 spec 的过拟合、在 test 之外不泛化的 Clever Hans 捷径、数据泄漏、概念漂移…… [44]
+
+Weng (Trinkle) 的综述把进化策略、贝叶斯优化、搜索式 RL 等**非梯度优化**方法归为同一谱系 [45]——当推理与评测的边际成本足够低，这类"在离散空间里搜索 + 用 verifier 选优"的算法重新与 gradient-based 优化并列成为软件工程里"学习"的合法路径。
+
+| ML 训练侧 | Agentic Coding 侧 | 传统软件工程侧 |
+|---|---|---|
+| Loss function（优化目标） | 需求文档 / PRD / Spec | 需求文档 / 用户故事 |
+| 验证集 (held-out eval set) | 测试用例 / 验收用例 / 生产流量回放 | 测试用例 / UAT |
+| 模型架构 (network architecture) | Coding agent 本体（含 harness、工具集、子 agent 编排） | 程序员 + 团队（人 + 流程） |
+| 一个 training step（一次梯度更新） | Agent 一轮迭代（read → edit → run → observe） | 一次 commit / PR |
+| 训练好的模型权重（部署制品） | 生成出来的代码库（部署制品） | 人写的代码库（部署制品） |
+| Hyperparameters (lr / batch / optimizer) | Prompt 模板、temperature、system prompt、context 组织策略 | 编码规范、code review 标准、团队公约 |
+| Training pipeline (DDP / orchestration) | CI/CD + agent orchestration | CI/CD + 项目管理 |
+| 训练算力预算 (FLOPs / $) | 推理算力预算 (tokens / $) | 人月预算 |
+| **解：需求信息不完整** —— 用数据 / 偏好 / verifier 代替显式 spec：监督学习用样本反推目标；RLHF / DPO 用人类两两偏好；RLVR / verifier-guided search 用机器可判对错的硬信号；active learning 让模型主动询问不确定处 | 把 spec 当成**会被持续迭代修正的 proxy**；用 test、lint、生产 trace 做硬验证；让 agent 在歧义处主动反问澄清 | 迭代式需求工程（Agile）、用户访谈、原型、MVP；接受 spec 在交付前不断变化 |
+| **解：持续变化的约束** —— Drift 检测 + 增量训练（LoRA / adapters）；replay buffer / EWC 抑制灾难性遗忘；**按变化速度解耦**：foundation model（慢变） + 下游 adapter（快变） | 生产 trace 重放当 eval；高频变的需求走 PRD / `fix_plan.md`，低频变的架构沉淀进基座；session 隔离避免长链漂移 | 版本迭代、回归测试、双轨 / 灰度发布、配置外置；接口契约 + 适配层吸收变化 |
+| **解：复杂系统权衡** —— End-to-end learning 放弃手工分解中间表征；MoE 按输入路由专家；**Scaling laws** 把"应该堆多少参数 / 数据 / 算力"变成可预测工程量；differentiable composition 让反向传播能跨整个系统 | 并行搜索实现空间 + verifier 择优（§1.4.3.3 第 2 点）；sub-agent 按角色分工（MoE 思路）；test-time compute 把"想得更深"明码标价 | 分层架构、模块化、抽象层、领域驱动设计；康威定律拆团队；以稳定接口隔离复杂度 |
 
 3. **"一次性/每用户级软件"在经济上变得可行**。长期以来软件追求"一套方案服务多人"，是因为单位开发成本高到必须摊销才合算。当生成单位代码的成本掉到几分钱量级，**"为这个会议、这条工单、这位用户单独写一个工具"** 就变成正常选项：报告、抓数、ETL、内部 dashboard、定制 SOP——这些原先因为"不值得专门开发"而被留在 Excel 与人工里的长尾需求，可以被 agent 一次性产出、用完即弃。这是软件经济学的结构性变化：**把"复用"作为美德的前提被部分弱化**，软件第一次有机会真正"贴身定制"而不只是"批量交付"。
 
-以下章节将具体探讨这三类新问题及其解决方法。
+以下章节将具体探讨这些新问题及其解决方法。
 
 ---
 
@@ -319,3 +337,7 @@ AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更
 [42] A. Begel and B. Simon, "Novice Software Developers, All Over Again," in *Proc. 4th Int. Workshop on Computing Education Research (ICER)*, Sydney, Australia, 2008, pp. 3–14. [Online]. Available: <https://www.semanticscholar.org/paper/Novice-software-developers,-all-over-again-Begel-Simon/0d34d4c7618d531b84d0fe78cb36c4e1b02e0709>
 
 [43] A. Bacchelli and C. Bird, "Expectations, Outcomes, and Challenges of Modern Code Review," in *Proc. 35th Int. Conf. Software Engineering (ICSE)*, San Francisco, CA, USA, May 2013, pp. 712–721.
+
+[44] F. Chollet, "Sufficiently advanced agentic coding is essentially machine learning…" *X (Twitter)*, Feb. 19, 2026. (Key claims: agentic coding = ML where engineer sets the optimization goal (spec) and search-space constraints (tests), the agent is the optimizer, and the generated codebase is a black-box model; therefore classic ML pathologies—spec overfitting, Clever Hans shortcuts, data leakage, concept drift—will all reappear in agentic coding.) [Online]. Available: <https://x.com/fchollet/status/2024519439140737442>
+
+[45] J. Weng ("Trinkle"), "Learning Beyond Gradients (超越梯度的学习)," *Personal Blog*, 2025. (A survey-style essay grouping evolutionary strategies, Bayesian optimization, and search-based RL as a unified non-gradient optimization family for modern AI systems.) [Online]. Available: <https://trinkle23897.github.io/learning-beyond-gradients/#zh>
