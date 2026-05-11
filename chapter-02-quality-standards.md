@@ -114,7 +114,7 @@ AI 协作下，代码至少有两类读者——**人类（reviewer / 决策者�
 
 - Liu et al. *Lost in the Middle* 早在 2023 年就实证：当相关信息出现在 prompt 中段时模型性能显著下降 [9]；
 - Databricks 2024 长上下文 RAG benchmark：Llama-3.1-405B 在 32k 后开始劣化、GPT-4-0125-preview 在 64k 后开始劣化 [10]；
-- 2025 年实践经验把这种"理论宣称 vs 可用"的 trade-off 直接概括为 **"~170k 可用，其中约 40% 是 smart zone（≈ 68k）"** [11]——长上下文里的**检索能力 ≠ 复杂理解能力**。
+- 2025 年实践经验把这种"理论宣称 vs 可用"的 trade-off 直接概括为 **"~170k 可用，其中约 40% 是 smart zone（≈ 68k）"** [11]——长上下文里的**检索能力 ≠ 复杂理解能力**；2026 年初一项基于真实 session 抽样的研究把这一阈值**上调到约 200k**——即所谓 **"the 200k ghost"** [20]，而且在单调任务或多样性任务中退化程度不同，这比 [11] 估计略宽松（高 ~18%）；为论证稳健，**下文统一采用更保守的 ~170k** 作为有效上限。
 
 主流 coding agent 的"理论宣称窗口"与"实测最佳工作区"近似对照（受 prompt 模板、系统提示、缓存策略等因素影响，下表仅为公开测评的综合近似）：
 
@@ -230,3 +230,5 @@ DRY、深度继承、各类设计模式大量产生于"代码每写一行都贵"
 [18] X. Xia, L. Bao, D. Lo, Z. Xing, A. E. Hassan, and S. Li, "Measuring Program Comprehension: A Large-Scale Field Study with Professionals," *IEEE Transactions on Software Engineering*, vol. 44, no. 10, pp. 951–976, Oct. 2018. (7 projects, 79 professional developers, 3,244 working hours; ~58% of dev time spent on program comprehension.) [Online]. Available: <https://baolingfeng.github.io/papers/tsecomprehension.pdf>
 
 [19] "AI Codebase Maturity Model (ACMM) and Reference Cases," *arXiv preprint*, arXiv:2604.09388. [Online]. Available: <https://arxiv.org/abs/2604.09388>
+
+[20] WaspBeeNSOSWE, "the-200k-ghost: A Reproduction of Coding-Agent Effective Context Length on Real Sessions," *GitHub Repository*, 2026. (Empirical re-measurement of long-context usable window for frontier coding agents; finds the practical degradation threshold sits closer to ~200k tokens rather than the earlier ~170k estimate.) [Online]. Available: <https://github.com/WaspBeeNSOSWE/the-200k-ghost>
