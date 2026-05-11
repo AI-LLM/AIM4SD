@@ -64,4 +64,5 @@
 | 4 | AI Foundation developer | AI技术产品化 | <br> |
 | 5 | Classic software developer | 传统软件项目交付或产品化 | <br> |
 
+- 下一代“开源”与“内源”（Super OSS & InnerSource）
 - 仿真（Simulation）
