@@ -53,7 +53,7 @@
 
 - 新软件与新开发者
   - "一次性/每用户级”软件
-  - 弹性软件
+  - 弹性软件与[Fully Autonomous Systems](https://arxiv.org/abs/2604.09388) //👀 [Heuristic Learning](https://trinkle23897.github.io/learning-beyond-gradients/#zh)
   - 新的开发者
 
 |   | 分类 | 产物重复使用的程度（次数、人和环境差异） | 对视觉设计、测试、商业价值实现等方面的要求 |
