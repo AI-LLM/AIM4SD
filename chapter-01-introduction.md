@@ -228,7 +228,7 @@ AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更
 
 François Chollet 在 2026 年 2 月给出一个更直接的断言：**"足够先进的 agentic coding 在本质上就是机器学习"**——工程师设定优化目标（spec）与搜索空间约束（tests），agent 作为优化过程迭代到目标达成；产物（生成出来的代码库）实质上是一个**黑盒模型**——你部署它而不审视内部逻辑，正如我们部署神经网络时不去关心单个权重 [44]。由此推论，经典 ML 问题都会很快变成 agentic coding 的工程问题：对 spec 的过拟合、在 test 之外不泛化的 Clever Hans 捷径、数据泄漏、概念漂移…… [44]
 
-Weng (Trinkle) 的综述把进化策略、贝叶斯优化、搜索式 RL 等**非梯度优化**方法归为同一谱系 [45]——当推理与评测的边际成本足够低，这类"在离散空间里搜索 + 用 verifier 选优"的算法重新与 gradient-based 优化并列成为软件工程里"学习"的合法路径。
+Weng (Trinkle) 把coding agent修改heuristic（也就是手写规则和程序策略）与 gradient-based 权重优化并列成为"学习"的新路径，甚至某种结合：“用 HL 处理在线数据快速生成在线经验，把在线经验内化成可训练、可回归、可筛选的数据，再周期性更新神经网络。” [45]。
 
 | ML 训练侧 | Agentic Coding 侧 | 传统软件工程侧 |
 |---|---|---|
