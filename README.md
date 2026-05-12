@@ -22,6 +22,8 @@
 - [四、软件工程语境](chapter-01-introduction.md#四软件工程语境)
   - [1.4.1 LLM 的"基础病"与软件工程的"老难题"是同构的](chapter-01-introduction.md#141-llm-的基础病与软件工程的老难题是同构的)
   - [1.4.2 那 LLM/Agent 在软件工程中真正改变了什么？——主体替换](chapter-01-introduction.md#142-那-llmagent-在软件工程中真正改变了什么主体替换)
+    - [1.4.2.1 AI 能力的"锯齿状边界" (Jagged Frontier)](chapter-01-introduction.md#1421-ai-能力的锯齿状边界-jagged-frontier)
+    - [1.4.2.2 对比软件工程师](chapter-01-introduction.md#1422-对比软件工程师)
   - [1.4.3 最大的变化是时间常数：SDLC 的加速 = 加速建造 + 加速腐化](chapter-01-introduction.md#143-最大的变化是时间常数sdlc-的加速--加速建造--加速腐化)
     - [1.4.3.1 如何建立新的质量标准、取得用户信任](chapter-01-introduction.md#1431-如何建立新的质量标准取得用户信任)
     - [1.4.3.2 如何在被加速过的生命周期里，让"有效时间"的比例尽可能高](chapter-01-introduction.md#1432-如何在被加速过的生命周期里让有效时间的比例尽可能高)
@@ -32,20 +34,17 @@
 ### [第二章 软件质量新标准](chapter-02-quality-standards.md)
 
 <!-- TOC-START: chapter-02-quality-standards.md -->
-- [2.1 起点：AI 能力的"锯齿状边界" (Jagged Frontier)](chapter-02-quality-standards.md#21-起点ai-能力的锯齿状边界-jagged-frontier)
-  - [2.1.1 在哪些维度上 AI 已稳定超过人类平均](chapter-02-quality-standards.md#211-在哪些维度上-ai-已稳定超过人类平均)
-  - [2.1.2 在哪些维度上 AI 仍低于人类](chapter-02-quality-standards.md#212-在哪些维度上-ai-仍低于人类)
-- [2.2 锯齿对传统软件质量观的几条结构性冲击](chapter-02-quality-standards.md#22-锯齿对传统软件质量观的几条结构性冲击)
-  - [2.2.1 可读性：面向 *谁* 的可读？](chapter-02-quality-standards.md#221-可读性面向-谁-的可读)
+- [2.1 锯齿对传统软件质量观的几条结构性冲击](chapter-02-quality-standards.md#21-锯齿对传统软件质量观的几条结构性冲击)
+  - [2.1.1 可读性：面向 *谁* 的可读？](chapter-02-quality-standards.md#211-可读性面向-谁-的可读)
     - [人类 vs LLM 的"可读上限"——绝对量与有效深度](chapter-02-quality-standards.md#人类-vs-llm-的可读上限绝对量与有效深度)
-  - [2.2.2 抽象模式：从"减少重复"到"减少不可逆"](chapter-02-quality-standards.md#222-抽象模式从减少重复到减少不可逆)
-  - [2.2.3 复用：从"库"到"能力"](chapter-02-quality-standards.md#223-复用从库到能力)
-  - [2.2.4 测试与覆盖率：从"覆盖"到"可信信号"](chapter-02-quality-standards.md#224-测试与覆盖率从覆盖到可信信号)
-  - [2.2.5 注释与文档：从同步难题到"Single source of truth"](chapter-02-quality-standards.md#225-注释与文档从同步难题到single-source-of-truth)
+  - [2.1.2 抽象模式：从"减少重复"到"减少不可逆"](chapter-02-quality-standards.md#212-抽象模式从减少重复到减少不可逆)
+  - [2.1.3 复用：从"库"到"能力"](chapter-02-quality-standards.md#213-复用从库到能力)
+  - [2.1.4 测试与覆盖率：从"覆盖"到"可信信号"](chapter-02-quality-standards.md#214-测试与覆盖率从覆盖到可信信号)
+  - [2.1.5 注释与文档：从同步难题到"Single source of truth"](chapter-02-quality-standards.md#215-注释与文档从同步难题到single-source-of-truth)
 <!-- TOC-END: chapter-02-quality-standards.md -->
-- 2.3 全过程的思考与生成记录
-- 2.4 审计与评测
-- 2.5 Session + Git 方案
+- 2.2 全过程的思考与生成记录
+- 2.3 审计与评测
+- 2.4 Session + Git 方案
 - [参考文献](chapter-02-quality-standards.md#参考文献)
 
 ### 第三章 SDLC的有效时间比

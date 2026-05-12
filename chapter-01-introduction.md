@@ -191,7 +191,85 @@ AI Coding 工具（Copilot、Cursor、Claude Code、Codex、Ralph Loop 等）更
 
 换句话说，**LLM 是软件工程方法论的一次"主体替换实验"**：所有过去对人有效的工程纪律（小步提交、可逆操作、显式契约、渐进重构、回归测试），对 agent 仍然有效；所有过去对人无效的（"把规范写得无懈可击"、"让团队自然达成默契"），对 agent 也仍然无效。
 
-在此情况下，目前（2026年初）产业界主要通过直接照搬人类软件工程管理人力的方式来管理AI，争取达到人类平均和人类团队平均的效果，典型的例子包括 Superpowers [[46]](https://github.com/obra/superpowers) 要求AI Agent执行一套人类最佳实践的工作流，等等。下文也会有章节讨论。
+在此情况下，目前（2026年初）产业界主要通过直接照搬人类软件工程管理人力的方式来管理AI，争取达到人类平均和人类团队平均的效果，典型的例子包括 Superpowers [[46]](https://github.com/obra/superpowers) 要求AI Agent执行一套人类最佳实践的工作流，等等。那么，除了AI的问题，它相对于人的优势也要检视。
+
+#### 1.4.2.1 AI 能力的"锯齿状边界" (Jagged Frontier)
+
+"Jagged Technological Frontier"（锯齿状技术边界）这个提法来自 2023 年 Dell'Acqua 等人与 BCG 合作进行的大规模田野实验 [[47]](https://www.hbs.edu/faculty/Pages/item.aspx?num=64700)：758 名 BCG 顾问被随机分配是否使用 GPT-4 完成 18 项现实咨询任务。结果惊人地分裂：
+
+- 落在能力**边界之内**的任务上，使用 AI 的顾问平均完成数多 **12.2%**、完成速度快 **25.1%**、质量高 **40%+**；
+- 在专门挑选的边界**之外**的任务上（描述上看与之内任务难度相近），使用 AI 的顾问给出正确答案的概率反而**低 19 个百分点**。
+
+也就是说——AI 的能力不是一个"整体高 / 低于人类 X%"的标量，而是一个**形状不规则的曲面**：两个表面看起来相邻的任务，可能一个落在能力之内、一个掉在能力之外，且边界的形状无法直接由"任务描述的难度"预测出来。Ethan Mollick 把这种现象进一步称为 **"Jagged AGI"**：同一个前沿模型既能秒解高难度商业战略题，又会在儿童谜语上跌跤。
+
+Karpathy 在 2025 年末的复盘里给这条曲线一个机制性的解释 [[48]](https://karpathy.bearblog.dev/year-in-review-2025/)：LLM 的能力会**在 RLVR（可验证奖励强化学习）覆盖到的领域附近"长出尖刺"**——数学题、竞赛编程、形式证明、强类型代码这些有硬验证器的窄域里，模型的表现迅速逼近甚至越过人类专家；而在没有可验证信号的开放域（创意、长程规划、社会与物理常识、品味判断）里，模型仍维持类似中等水平人类的输出。所以"锯齿"不是训练不足造成的瑕疵，而是**优化目标本身的结构性产物**。
+
+![](https://bear-images.sfo2.cdn.digitaloceanspaces.com/karpathy/g6zymj4a0amnjkj.webp)
+*Source:karpathy.bearblog.dev*
+
+把这条结论搬进软件工程，得到一个指导性的判断：
+
+> **AI 不是"全能但偏弱"的初级工程师，也不是"全能且超人"的资深工程师；它是一名能力分布与人类正交的执行体——在我们一直觉得"难"的某些维度上轻松超过人均，又在我们一直觉得"理所当然"的某些维度上反复栽跟头。**
+
+#### 1.4.2.2 对比软件工程师
+
+下图把 §1.4.2.2.1 将要展开的能力**优势**轴 (A–E) 与 §1.4.2.2.2 将要展开的能力**短板**轴 (a–d) 放在同一张雷达上做主观对照。人类平均水平统一取作 5（基准锚），AI 的得分在 0–10 之间相对它浮动；前半周（A–E）多在 5 之外，后半周（a–d）多在 5 之内——这正是"锯齿"二字在工程语境里的可视化形态：
+
+```mermaid
+---
+title: "AI 前沿模型 (2025) vs. 人类平均水平的锯齿状能力剖面"
+config:
+  radar:
+    showValues: false
+---
+radar-beta
+  axis t["A 吞吐/并行"], s["B 风格一致*"], b["C 显式样板"], r["D 算法/测试/API"], v["E 扫盲/漏洞"]
+  axis p["a 长程规划"], g["b 现实 Grounding"], c["c 信任与责任"], q["d 审美品味"]
+
+  curve h["人类平均"]{5, 5, 5, 5, 5, 5, 5, 5, 5}
+  curve x["AI (2025)"]{10, 8, 9, 8, 9, 3, 2, 1, 3}
+
+  max 10
+  min 0
+```
+
+> 读图说明：
+> - 人类平均（青色多边形）在所有轴上恒为 5——它**就是基准**，不是"人类的真实能力分布"。
+> - AI（橙色多边形）的得分是基于 §2.1 / §2.2 论据的主观估计，**仅用于呈现"锯齿形状"**，不应被解读为精确测量；不同模型、不同 harness、不同领域上的具体分布会有差异。
+> - **B 风格一致**的 AI 数值取**多采样 + verifier 反馈** 配置；single-shot 模式下该轴会接近 5（详见 §1.4.2.2.1 B）。
+> - **c 信任与责任** 给到接近 0 是因为在多数法律/合规语境下这一项**结构上**无法由模型承担，与其能力强弱无关。
+
+下面把这条锯齿映射到软件工程的具体维度。
+
+##### 1.4.2.2.1 在哪些维度上 AI 已稳定超过人类平均
+
+**A. 吞吐与并行度**。生成代码的速度是人类工程师的 10²–10³ 倍，且天然并行。它的直接后果不是"代码写得更好"，而是"凡是只有在生成速度小于审阅速度时才成立的质量观，在原则上已经失效"。
+
+**B. 风格 / 命名 / 模板的一致性（"多次生成 + 自我校对"配置下）**。
+
+需要先做一个重要的限定：**单次生成 (single-shot)** 层面，由于 LLM 的采样温度随机性 + 推理时的非确定性（参见第一章 P5 关于浮点不结合性 + batching 的讨论），AI 在"重复执行同一规约"时的一致性**未必**高于一名经过良好 onboarding 的人类工程师——同一段 prompt 在不同时间、不同负载下跑出来的命名、留白、错误处理顺序都可能轻微漂移。
+
+但当生成回路扩展为 **多次采样 + 自我校对 / 验证器筛选** 时，情况发生质变。Brown 等人 2024 年的 *Large Language Monkeys: Scaling Inference Compute with Repeated Sampling* [[49]](https://arxiv.org/abs/2407.21787) 实证表明：**只要拥有可机器验证的成功信号**，覆盖率（任何一次采样能解掉的任务比例）会随采样数在四个数量级上呈对数线性上升——例如在 SWE-bench Lite 上，DeepSeek-Coder-V2-Instruct 单样本解出比例 15.9%，250 次采样后升至 56%。这是一个虽然**间接但强烈**的证据：当我们把"一致性"也视为一个可被 verifier / linter / judge 量化的目标，**多次生成 + 选优**能让 AI 系统的一致性收敛到远高于人类平均的水平——大尺度代码库里贯彻同一种命名、同一种 import 顺序、同一种错误处理范式，对人类是体力活，对配了 verifier 反馈的 AI harness 是默认行为。
+
+> ⚠ **声明**：截至目前还没有**直接对照实验**把"AI 多次生成 + 自我校对 vs. 人类工程师在大尺度代码库中的风格一致性"作为同一变量同台测量。本节的判断是从相邻领域（数学 / 代码任务的覆盖率扩展）类比推断出来的，仍需面向真实代码库做专门的实证评估。
+
+由此推出对 lint / code style 工程实践的影响：以"一致性"为表面目标的传统 lint 规则、code style 守则在 single-shot 设置下不一定立刻免费，**但在配合 lint / verifier 反馈 + 多轮重生的 harness 下，会从"人类需要努力达到的目标"降格为"AI 系统的近零成本基线"**。
+
+**C. 把 boilerplate 写得显式而非"用抽象省掉"**。模板、胶水代码、适配器、转换层这些原先被 DRY 教条压抑的"重复但显式"的代码，AI 写起来不嫌烦——你可以选择"展开 100 行显式样板"而不是"用三层抽象省 70 行"。
+
+**D. 在已有 RLVR 覆盖的窄域内逼近 / 越过人均**：算法实现、单元测试编写、API 形状契合度、跨语言机械翻译、SQL / 正则 / grep 类查询表达——这些有强反馈信号的领域里，AI 在 2025 年已稳定超过中等水平人类。
+
+**E. 跨大上下文的"扫盲式"工作（含安全漏洞挖掘）**。读完整个代码库找出所有命名违例、过期注释、死代码、未捕获异常——这种"耐心活"对人类极其昂贵，对 AI 是几乎免费的副产品。**安全漏洞发现**是这条特性的高价值延伸：在 2025 年 DARPA **AIxCC (AI Cyber Challenge)** 决赛中，一个 LLM 驱动的"All You Need Is A Fuzzing Brain"系统在真实的开源 C / Java 项目上**自主发现了 28 个安全漏洞，其中 6 个为此前未公开的 0day，并成功自动修补了 14 个** [[50]](https://arxiv.org/html/2509.07225v1)；2025 年 ACM Computing Surveys 上的综述对这一年起 LLM 在漏洞检测领域的快速成长做了系统总结 [[51]](https://dl.acm.org/doi/10.1145/3769082)。也就是说，从"代码异味扫盲"延伸到"零日漏洞挖掘"这条连续谱上，AI 正在用**耐心 + 跨上下文检索**这两项被放大到接近免费的能力，做一些**对一般人类工程师团队在经济上不划算去做**的事。
+
+##### 1.4.2.2.2 在哪些维度上 AI 仍低于人类
+
+**a. 长程规划与架构判断**：跨多个模块、多次需求迭代、面对"模糊不完整需求"的系统性设计，仍是 AI 的弱项（参见第一章 P2）。
+
+**b. 现实 grounding 与约束感知**：哪些性能预算是硬约束、哪些用户痛点是真痛点、哪些"看起来可行但会踩到生产事故的边"——这类靠现场经验锚定的判断，AI 仍依赖被显式喂入而不能自发感知（参见第一章 P4）。
+
+**c. 信任与责任承担**：当一段输出需要承担后果（合规、安全、商业承诺），"人对人的问责链"仍是机器无法替代的契约基础。
+
+**d. 审美与品味**：哪些抽象优雅、哪些 API 设计让人愿意用十年——这类"长期可读性"上的取舍，AI 仍倾向于复述训练集里的多数派，而不能建立独立判断。
 
 ### 1.4.3 最大的变化是时间常数：SDLC 的加速 = 加速建造 + 加速腐化
 
@@ -346,3 +424,13 @@ Weng (Trinkle) 把coding agent修改heuristic（也就是手写规则和程序�
 [45] J. Weng ("Trinkle"), "Learning Beyond Gradients (超越梯度的学习)," *Personal Blog*, 2025. (A survey-style essay grouping evolutionary strategies, Bayesian optimization, and search-based RL as a unified non-gradient optimization family for modern AI systems.) [Online]. Available: <https://trinkle23897.github.io/learning-beyond-gradients/#zh>
 
 [46] J. Bernstein (obra), "Superpowers: A Claude Code plugin that gives Claude superpowers," *GitHub repository*, 2025. (An opinionated plugin packaging human software-engineering best-practice workflows—planning, TDD, code review, debugging skills—as reusable instructions for Claude Code agents.) [Online]. Available: <https://github.com/obra/superpowers>
+
+[47] F. Dell'Acqua, E. McFowland III, E. R. Mollick, H. Lifshitz-Assaf, K. Kellogg, S. Rajendran, L. Krayer, F. Candelon, and K. R. Lakhani, "Navigating the Jagged Technological Frontier: Field Experimental Evidence of the Effects of Artificial Intelligence on Knowledge Worker Productivity and Quality," Harvard Business School Working Paper No. 24-013, Sept. 2023. [Online]. Available: <https://www.hbs.edu/faculty/Pages/item.aspx?num=64700>
+
+[48] A. Karpathy, "2025 LLM Year in Review," *karpathy.bearblog.dev*, Dec. 2025. [Online]. Available: <https://karpathy.bearblog.dev/year-in-review-2025/>
+
+[49] B. Brown, J. Juravsky, R. Ehrlich, R. Clark, Q. V. Le, C. Ré, and A. Mirhoseini, "Large Language Monkeys: Scaling Inference Compute with Repeated Sampling," *arXiv preprint*, arXiv:2407.21787, Jul. 2024. [Online]. Available: <https://arxiv.org/abs/2407.21787>
+
+[50] Z. Wang *et al.*, "All You Need Is A Fuzzing Brain: An LLM-Powered System for Automated Vulnerability Detection and Patching," *arXiv preprint*, arXiv:2509.07225, Sept. 2025. (DARPA AI Cyber Challenge 2025 finalist; autonomously discovered 28 vulnerabilities including 6 zero-days in real-world open-source C/Java projects and patched 14.) [Online]. Available: <https://arxiv.org/html/2509.07225v1>
+
+[51] Z. Zhang *et al.*, "LLMs in Software Security: A Survey of Vulnerability Detection Techniques and Insights," *ACM Computing Surveys*, 2025. [Online]. Available: <https://dl.acm.org/doi/10.1145/3769082>
