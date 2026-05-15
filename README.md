@@ -110,6 +110,7 @@
   - [5.5.1 改造既有课程](chapter-05-human-education.md#551-改造既有课程)
   - [5.5.2 新增必修与选修课](chapter-05-human-education.md#552-新增必修与选修课)
   - [5.5.3 教学方法：三象限作业体系 + 过程审计](chapter-05-human-education.md#553-教学方法三象限作业体系--过程审计)
+  - [5.5.4 学校教育的范围边界：为什么不能依赖产业接续](chapter-05-human-education.md#554-学校教育的范围边界为什么不能依赖产业接续)
 - [5.6 实施风险与节奏](chapter-05-human-education.md#56-实施风险与节奏)
 <!-- TOC-END: chapter-05-human-education.md -->
 - [参考文献](chapter-05-human-education.md#参考文献)

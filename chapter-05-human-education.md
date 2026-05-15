@@ -164,7 +164,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 - **象限 II 的方法学必须作为新的内容类别加入**——这是当前 CS 本科**最大的内容真空**，也是回应"不会手写代码如何判断 AI 代码"这一典型疑问的实质答案。具体落点：§5.5.2-(2) Eval & Trust 必修课作为主战场；§5.5.1 中 15-251 注入 property-based + metamorphic 模块、21-325 注入 power analysis + 厚尾、17-313 拆出 Spec & Eval 半门。
 - **象限 III 的训练强度按"narrow but deep"原则保留**——保留的目的不是产出能干活的初级程序员，而是构建后续与 AI 协作所需的最小 case base。对应作业的考核标尺也随之改变：不评学生独立完成 1000 行项目，而评学生能否说清"如果我让 AI 写这个，它最可能在哪里出错、我用 象限 II 中的哪种方法检验"。
 
-> ⚠ **声明**：三象限的具体划分（特别是哪些传统能力落在 象限 II 可替代区）仍缺直接的对照实验证据。本节判断基于第一、二章已引文献的推论 + 各 象限 II 方法在工业界的成熟度，**不是**对每一项做了独立测量。明确标注是设计建议而非实证结论。
+> ⚠ **声明**：三象限的具体划分（特别是哪些传统能力落在 象限 II 可替代区）仍缺直接的对照实验证据。本节判断基于第一、二章已引文献的推论 + 各 象限 II 方法在工业界的成熟度，**不是**对每一项做了独立测量。MIT 2025 一项关于"将编码任务外包给 ChatGPT 的成年人脑部活动减少、记忆力变差"的短期实验 [[23]](https://dl.acm.org/doi/10.1145/3779312) 提供了**与 象限 III 主张方向一致**的初步神经学证据——但其测量的是短期认知负荷而非长期判断力，仍不能等同于"AI 协作下 18 个月后判断力差异"的对照实验。明确标注是设计建议而非实证结论。
 
 ---
 
@@ -321,6 +321,26 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 
 > ⚠ **声明**：以上五条机制目前在主流 CS 本科教育中尚无大样本对照研究。本节判断是从软件工程方法论的近邻领域（agentic coding 实践、CS 写作型课程的 portfolio 评分经验、传统赤手考试机制）类比推断，仍需面向真实课堂做实证评估。
 
+### 5.5.4 学校教育的范围边界：为什么不能依赖产业接续
+
+Russinovich & Hanselman 在论文里提出一条诱人的退路：让本科教育止步在概念基础，把判断力训练交给产业内的 mentorship / residency 制度——借鉴医学教育，结构化轮岗、senior + junior pair 一年以上、导师工作作为组织 KPI、终结认证；Hanselman 的护士—工程师类比："正如护士需证明临床操作能力，工程师亦应" [[21]](https://dl.acm.org/doi/10.1145/3779312)。
+
+这个方案在**制度形式上**是吸引人的——它把"毕业到能独立工作的两年"显式纳入训练管道，与第五章 §5.1–§5.5 设计的本科四年形成连续。但**它依赖的产业激励基础是结构性不稳定的**，本节论证为什么不能把它当作可依赖的下游保障。
+
+**第一层不稳定性：资深工程师的 disincentive**。在 AI 已能替代中初级执行职能的语境下，资深工程师投入大量时间指导可能取代自己的学员，是与个人职业利益直接对立的。论文承认这点，并寄希望于"组织 KPI"将其纠正——把 mentorship 计入 senior 的考核与报酬。但 KPI 设计本身在多数公司也由资深工程师群体主导，结构上存在 *谁去推动这条 KPI* 的循环依赖问题。
+
+**第二层不稳定性来自 Charity Majors 的从业观察**："过去几年里，在我见过的每一家开始招聘初级工程师的公司中，这项举措都是由资深工程师主导并推动的" [[22]](https://leaddev.com/career-development/a-model-for-growing-the-next-generation-of-developers)。这反过来说明——**目前仍在维护初级管道的，恰好是那批在前-AI 时代完成了完整训练、保有"初级是未来资深"认知框架的资深工程师**。他们退休或更换雇主后，新一代资深（在 AI 协作下成长起来、本身未经历完整管道）是否会保有同样的认知动机，没有结构性保障——这是一个**以一代为周期**的衰减风险。
+
+合起来：产业 residency 是值得追求的**理想形式**，但**不能作为本科课程设计可依赖的下游保障**。这把一个本来可以被推到毕业后的训练目标——novel 失败模式识别（§5.2.3 象限 III 第 2 项）、长期审美决策（§5.1.5 / 象限 III 第 3 项）、生产可观测性 + 事件响应、组织内部信任与责任承担（§5.1.4）——**全部压回到本科四年之内**。
+
+对前面几节的具体影响：
+
+- §5.5.1 改造表中"案例 case base 训练"列出的赤手实验强度**不能减弱**——产业不一定继续提供训练机会；
+- §5.5.2-(4) Reading Engineering 必修课的"在百万行级开源项目里完成受约束 bugfix"作业**必须保留为本科必修**而不能改为企业实习项目；
+- §5.6 第 5 条提到的"教育改革须与产业 mentorship 同步"必须降级表述为：**理想情况下同步**；**现实情况下教育不能依赖产业接续，必须独立承担到位**。
+
+> ⚠ **声明**：本节关于"senior disincentive 在多大程度上决定产业管道维护的可持续性"的论证，主要依赖于 Charity Majors 的从业观察 [[22]](https://leaddev.com/career-development/a-model-for-growing-the-next-generation-of-developers) 与 Reddit / The Register 论坛讨论中反映的从业者观察，**尚缺定量的行业研究**。但这是 *设计取向* 而非定量结论——即便 senior disincentive 只有 30% 概率成为主导，把判断力训练完全押在产业接续上就承担了不可接受的失败风险，教育独立承担到位是 risk-dominant 的选择。
+
 ---
 
 ## 5.6 实施风险与节奏
@@ -344,6 +364,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 2. **学术诚信框架的滞后**。多数高校的诚信条款仍按"独立完成"组织——这与 §5.5.3-(1) 的双轨制直接冲突。建议先以课程层面 opt-in 的形式试点，再推动制度层面的修订。
 3. **新增必修课的学分挤占**。CMU SCS 本科总学分已接近上限，新增三门必修必然要替换或合并旧课。建议把 15-251 / 17-313 / 15-122 / 21-325 四门作为"内容更新"的主入口（注入 spec / eval / 阅读理论 / 厚尾统计模块），减少独立新课的数目。
 4. **象限 III 作业的偷工陷阱**。三象限作业里只有 象限 III 一类禁止 AI，份额又最小；学生很容易在这里偷用 AI——尤其是当他们看到"反正最后期末考会带 AI"时。这会绕开 §5.2.3 象限 III 的整个 case base 构建目的。**期末闭卷段必须是真正可以挂科的硬阀门**，否则三象限会塌成"全部象限 II / I"——所有判断力的认知前提都丢失。
+5. **产业管道反馈环**。第五章假定毕业生进入一个仍会招他们的产业；这条假设被实证反驳——哈佛 GPT-4 后跟踪研究显示 22–25 岁 AI 相关岗位就业率下降约 13% [[21]](https://dl.acm.org/doi/10.1145/3779312)；行业 2022 年以来初级开发者招聘量降 67% [[21]](https://dl.acm.org/doi/10.1145/3779312)。Russinovich & Hanselman [[21]](https://dl.acm.org/doi/10.1145/3779312) 把此现象称为"金字塔窄化假说"：AI 消除了初级开发者赖以学习的入门级工作后，培养下一代资深工程师的人才梯队结构性崩塌，构成自我强化的反馈环（无初级 → 长期无资深 → 训练数据质量下降 → 模型与人都退化）。这条上游约束**不能由教育侧独立解决**——但反过来也意味着教育侧**不能依赖产业侧的接续训练**，详见 §5.5.4 的论证。
 
 ---
 
@@ -394,3 +415,9 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 [19] Lean Prover Community, "Lean 4 and Mathlib: Industrial-Strength Formal Verification," 2024–2025. (Project page documenting the rapid maturation of Lean 4 + Mathlib in 2024–2025: industrial users (AWS, Microsoft) reporting ROI-positive use of Lean for verifying critical infrastructure; tactic frameworks (Aesop) dramatically lowered the proof-engineering cost.) [Online]. Available: <https://leanprover-community.github.io/>
 
 [20] Google DeepMind, "AI Achieves Silver-Medal Standard Solving International Mathematical Olympiad Problems," *DeepMind Blog*, July 2024. (AlphaProof: an RL system that uses Lean formalization as a verifiable reward signal — a working example of formal verification serving as the reward function for AI training, directly tied to Quadrant II reward-hacking detection.) [Online]. Available: <https://deepmind.google/discover/blog/ai-solves-imo-problems-at-silver-medal-level/>
+
+[21] M. Russinovich and S. Hanselman, "Programming Is Not Software Engineering: The Crisis in Junior Developer Mentorship," *Communications of the ACM*, vol. 69, no. 4, April 2026. (Introduces the "pyramid narrowing hypothesis"; cites Harvard 22–25 employment data showing ~13% decline post-GPT-4 in AI-adjacent roles, industry-wide 67% drop in junior developer hiring since 2022, and the MIT 2025 cognitive debt study summarized in [23].) [Online]. Available: <https://dl.acm.org/doi/10.1145/3779312>
+
+[22] S. Hanselman, "A Model for Growing the Next Generation of Developers" (interview, with extended discussion of mentor incentives and Charity Majors' observation that "every company I've seen restart junior hiring did so on the senior engineers' initiative"), *LeadDev*, 2026. [Online]. Available: <https://leaddev.com/career-development/a-model-for-growing-the-next-generation-of-developers>
+
+[23] MIT cognitive debt study referenced in Russinovich & Hanselman [21] (2025): adults outsourcing coding tasks to ChatGPT exhibit reduced neural activity and degraded memory retention compared to controls. (Primary citation pending; data summarized via [21].) [Online]. Available: <https://dl.acm.org/doi/10.1145/3779312>
