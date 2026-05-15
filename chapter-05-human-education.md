@@ -1,6 +1,6 @@
 # 第五章　人的教育
 
-> 第一章 §1.4.2 把 AI 在软件工程中的位置定为"**主体替换**"——它接管的是中初级工程师的执行职能，但能力分布与人类**正交**（§1.4.2.1 锯齿状边界）。第二章把这条锯齿的结果展开成软件质量观的**重新定价**（可读性 / 抽象 / 复用 / 测试 / 文档五条），第一章 §三 又给出一份**周边工程没有触及的根性缺陷清单**（P1–P10 的 *残余问题* 一列）。这三件事合起来定义了一个简单的边界条件：**留给人类工程师的不是减法后剩下的活，而是 AI 不能可靠承担、又恰好与产品价值最相关的那一组职责**。本章先把这组职责做出来（§5.1），再做一件**比"把工作项目翻译成课程"更前置的事**——分析这些职责需要什么能力、这些能力从高中毕业生的数理 / 逻辑 / 人文基线出发要补什么、其中哪些**只能**作为亲手做事的副产品长出来（§5.2）；之后选一个公开度最高的本科 CS 课程体系（CMU SCS BS in Computer Science）做对照（§5.3），逐项诊断它在新分工下的具体缺口（§5.4），给出改造既有课程与新增内容的建议（§5.5），最后讨论实施节奏与风险（§5.6）。
+> 第一章 §1.4.2 把 AI 在软件工程中的位置定为"**主体替换**"——它接管的是中初级工程师的执行职能，但能力分布与人类**正交**（§1.4.2.1 锯齿状边界）。第二章把这条锯齿的结果展开成软件质量观的**重新定价**（可读性 / 抽象 / 复用 / 测试 / 文档五条），第一章 §1.3 又给出一份**周边工程没有触及的根性缺陷清单**（P1–P10 的 *残余问题* 一列）。这三件事合起来定义了一个简单的边界条件：**留给人类工程师的不是减法后剩下的活，而是 AI 不能可靠承担、又恰好与产品价值最相关的那一组职责**。本章先把这组职责做出来（§5.1），再做一件**比"把工作项目翻译成课程"更前置的事**——分析这些职责需要什么能力、这些能力从高中毕业生的数理 / 逻辑 / 人文基线出发要补什么、其中哪些**只能**作为亲手做事的副产品长出来（§5.2）；之后选一个公开度最高的本科 CS 课程体系（CMU SCS BS in Computer Science）做对照（§5.3），逐项诊断它在新分工下的具体缺口（§5.4），给出改造既有课程与新增内容的建议（§5.5），最后讨论实施节奏与风险（§5.6）。
 
 ---
 
@@ -14,18 +14,18 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 
 ### 5.1.2 验证与评测设计者 (Verifier / Eval Designer)
 
-第二章 §2.1.4 已经把"测试"从劳动量瓶颈翻转成**信号质量瓶颈**——写测试 AI 几乎免费，写**有判别力**的测试仍是稀缺的。结合 §三 对 P6 评测危机的复盘（LLM-as-Judge 偏置、benchmark 污染），人类的第二份职责是**对抗性地构造判别集**：variation testing、property-based、生产 trace 重放、面向"训练后才存在的题"的红队评测。
+第二章 §2.1.4 已经把"测试"从劳动量瓶颈翻转成**信号质量瓶颈**——写测试 AI 几乎免费，写**有判别力**的测试仍是稀缺的。结合 §1.3 对 P6 评测危机的复盘（LLM-as-Judge 偏置、benchmark 污染），人类的第二份职责是**对抗性地构造判别集**：variation testing、property-based、生产 trace 重放、面向"训练后才存在的题"的红队评测。
 
 ### 5.1.3 过程与可逆性设计者 (Process / Reversibility Designer)
 
-§1.4.3 把 SDLC 描述为"加速建造 + 加速腐化"。在这个量级上，**任何不可回退的早期决策都会被加速放大成事故**，所以 §2.1.2 把抽象的目标从 *DRY* 重新定价为 *locality of change* 与 *reversibility*。对应到人这一侧，这是一种**组织 / 流程 / 版本控制 / 影响半径**层面的工程，而不是代码层面的。它包含：环境隔离、可灰度发布、回滚预案、ADR、`fix_plan.md` 这类外置组织记忆（§1.4.3.2）、CI/CD 与 harness 的权限模型（§三 C14）。
+§1.4.3 把 SDLC 描述为"加速建造 + 加速腐化"。在这个量级上，**任何不可回退的早期决策都会被加速放大成事故**，所以 §2.1.2 把抽象的目标从 *DRY* 重新定价为 *locality of change* 与 *reversibility*。对应到人这一侧，这是一种**组织 / 流程 / 版本控制 / 影响半径**层面的工程，而不是代码层面的。它包含：环境隔离、可灰度发布、回滚预案、ADR、`fix_plan.md` 这类外置组织记忆（§1.4.3.2）、CI/CD 与 harness 的权限模型（§1.3 C14）。
 
 ### 5.1.4 信任承担者 (Accountable Principal)
 
 §1.4.2.2.2 c 把"信任与责任"列为 AI 在**结构上**无法承担的一轴——这不是能力问题，而是法律 / 合规 / 商业承诺**主体资格**问题。对应的人的职责覆盖：
 
 - 对**外部**：合规审查、对客户 / 监管的承诺、出事时的问责接受方；
-- 对**内部**：风险定级（哪些决策可让 agent 单独完成、哪些必须 human-in-the-loop）、对抗性安全审查、Prompt Injection（§三 P8）的架构级缓解。
+- 对**内部**：风险定级（哪些决策可让 agent 单独完成、哪些必须 human-in-the-loop）、对抗性安全审查、Prompt Injection（§1.3 P8）的架构级缓解。
 
 ### 5.1.5 审美与品味守门人 (Taste Steward)
 
@@ -133,7 +133,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 | **经验复杂度回归** | "O(n log n)" 类性能声明是否名副其实 | 拟合 power-law / poly / exp 到运行时-输入规模曲线 | 手算 O(·) + 凭直觉找反例 |
 | **counterfactual 扰动** | reward hacking / spec gaming | Lipschitz 连续性 + 分布漂移检测；与第一章 P2 不忠实 CoT [[25, ch.1]](https://arxiv.org/abs/2503.08679) 检测同源 | 靠经验"嗅"出 agent 钻空子 |
 | **trace 重放 + 异常聚类** | 生产环境下的隐性回归 | Z-score / Mahalanobis distance / OOD 检测 | 周期性手工 code review |
-| **校准过的 LLM-as-judge** | 大规模主观判断（写作、API 设计、文档质量）| 与人类金标准对齐 + 偏置补偿；§三 P6 [[21, ch.1]](https://openreview.net/forum?id=3GTtZFiajM) 提醒 judge 自身的位置 / 冗长 / 立场偏置必须持续校准 | 人类 reviewer 在大尺度生成上不堪重负 |
+| **校准过的 LLM-as-judge** | 大规模主观判断（写作、API 设计、文档质量）| 与人类金标准对齐 + 偏置补偿；§1.3 P6 [[21, ch.1]](https://openreview.net/forum?id=3GTtZFiajM) 提醒 judge 自身的位置 / 冗长 / 立场偏置必须持续校准 | 人类 reviewer 在大尺度生成上不堪重负 |
 
 > 一个关键观察：**这些方法都不要求学生会写出被验证的代码——它们要求学生能"设计验证机制"**。设计验证机制需要的能力是：可证伪原则、形式语义、统计判别、不变式直觉、扰动设计——这些都是**数学 / 统计 / 形式方法学**的能力，与"手写每一行代码"是正交的。这个典型疑问的实质答案因此是：**大部分判断由象限 II 方法学承担，与是否会手写无关**——前提是学生学过这一组方法。
 
@@ -213,7 +213,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 ### 5.4.2 缺口二：评测与可信信号工程化训练不足
 
 - **现有什么**：15-451 / 15-411 等课布置作业自动评分；10-301 教交叉验证；17-313 一节课讲 unit testing。
-- **缺什么**：(a) 把 §三 P6 的全部 syndromes（benchmark 污染 [[31, ch.1]]、LLM-as-Judge 偏置 [[21, ch.1]]、生产 trace 重放、对抗集构造、property-based、变异测试）作为**一门工程课**的核心；(b) §5.2.2 中层提到的**实验设计 + 厚尾 / 稀有事件估计**——CMU 的概率课覆盖均值方差，但对 Anscombe's quartet、p-hacking、power analysis 不做工程化训练。当前 CMU 离这条线最近的是 17-355 Program Analysis 与 18-636 Software Engineering for AI——前者偏理论、后者属研究生层。
+- **缺什么**：(a) 把 §1.3 P6 的全部 syndromes（benchmark 污染 [[31, ch.1]]、LLM-as-Judge 偏置 [[21, ch.1]]、生产 trace 重放、对抗集构造、property-based、变异测试）作为**一门工程课**的核心；(b) §5.2.2 中层提到的**实验设计 + 厚尾 / 稀有事件估计**——CMU 的概率课覆盖均值方差，但对 Anscombe's quartet、p-hacking、power analysis 不做工程化训练。当前 CMU 离这条线最近的是 17-355 Program Analysis 与 18-636 Software Engineering for AI——前者偏理论、后者属研究生层。
 - **为什么是问题**：§2.1.4 已把"判别力"列为新护城河；§5.1.2 把它列为第二份残余职责；§5.2.3 进一步给出实质构成——**大部分**判别力可由象限 II 方法学（property-based / metamorphic / differential / 多采样一致性 / 形式验证等）承担，**少部分**（起草 rubric 的判断力）属于象限 III，需要亲手吃过弱测试苦头形成 case base。两半合起来要求的复合训练目前一门课都没有。
 
 ### 5.4.3 缺口三：可逆性与影响半径——抽象重定价没有载体
@@ -227,11 +227,11 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 - **现有什么**：15-410 OS、15-440 Distributed Systems、10-417 Deep Learning Systems、18-330 Computer Security。
 - **辨析（先把误判挪开）**：把 harness 比作"新型操作系统"是种过度引申——它与 OS 是**同位异层**关系（harness 跑**在** OS 之上），仅仅"调度对象 / 权限模型 / 可观测性"换了名字并不构成抽象层级的新事物。逐项拆开来看：
   - **调度对象**：OS 调度的是有确定执行语义的进程；harness 调度的是"按 LLM 输出内容决定下一步"的非确定子任务。这意味着 harness 的 scheduling decision **依赖对调度对象输出的语义解释**，这把它从内核层下移到 *shell / workflow engine* 层。Airflow / Temporal / make / shell 早就在做"按上一步输出决定下一步"；harness 的新东西是输出为自然语言、需要 judge / verifier 解释，但**调度学**层面没有翻新。
-  - **权限模型**：POSIX DAC + namespaces + cgroups + `capabilities(7)` 在**表达力**上完全可以描述 tool / file / network capability——能不优雅是另一回事，容器生态每天都在做。harness 真正的新约束不在表达力，而在**主体本身可被它处理的数据攻陷**（§三 P8 提示注入是架构级的，LLM 在内部不区分代码与数据）。传统 capability 系统的 *confused deputy* 假设是"主体偶尔被骗"；LLM 主体的语境是"处理任何外部内容都等同于把权能委托给该内容"。这把权限设计重心从 *capability / DAC* 谱系推向 **mandatory information flow control / DIFC** 谱系——Bell-LaPadula、SELinux、Asbestos、HiStar 这一脉，对**单一主体内部的数据流**也设标签——而这是研究生层的 OS 安全内容，本科 18-330 不教。
+  - **权限模型**：POSIX DAC + namespaces + cgroups + `capabilities(7)` 在**表达力**上完全可以描述 tool / file / network capability——能不优雅是另一回事，容器生态每天都在做。harness 真正的新约束不在表达力，而在**主体本身可被它处理的数据攻陷**（§1.3 P8 提示注入是架构级的，LLM 在内部不区分代码与数据）。传统 capability 系统的 *confused deputy* 假设是"主体偶尔被骗"；LLM 主体的语境是"处理任何外部内容都等同于把权能委托给该内容"。这把权限设计重心从 *capability / DAC* 谱系推向 **mandatory information flow control / DIFC** 谱系——Bell-LaPadula、SELinux、Asbestos、HiStar 这一脉，对**单一主体内部的数据流**也设标签——而这是研究生层的 OS 安全内容，本科 18-330 不教。
   - **可观测性**：syscall trace 与 prompt-response trace 在工具链上同源（eBPF / journald / OpenTelemetry 早就支持非结构化日志）；真正的差异在 trace 的**地位**——syscall trace 是事后调试品，prompt-response trace 在新分工下是**一等交付物**（§2.1.5），决定了 schema、retention、回放与 diff 的设计要求。这是工程动作层面的差异，不是底层抽象的差异。
-  - **非确定性**：进程在给定输入下执行确定；LLM 调用在相同输入下因 batching、温度、并发负载仍会漂移（§三 P5 [[29, 30, ch.1]]）。这让 *replay* 与 *deterministic scheduling* 在严格意义上失效——harness 必须像蒙特卡洛仿真平台那样做"随机种子 + 多次复跑 + 统计判别"，这是仿真与实验科学的范畴，与 OS 调度无关。
+  - **非确定性**：进程在给定输入下执行确定；LLM 调用在相同输入下因 batching、温度、并发负载仍会漂移（§1.3 P5 [[29, 30, ch.1]]）。这让 *replay* 与 *deterministic scheduling* 在严格意义上失效——harness 必须像蒙特卡洛仿真平台那样做"随机种子 + 多次复跑 + 统计判别"，这是仿真与实验科学的范畴，与 OS 调度无关。
   - **资源会计**：OS 计 CPU / RAM 配额；harness 还要联合优化 token 成本、verifier 质量分、延迟预算——这是云成本管理 + 质量控制的合成，不是新内核概念。
-- **真正的缺口**：上面四条横跨 *workflow / shell 编排语义*（15-440 不覆盖语义层）、*MAC / DIFC 安全*（18-330 不覆盖）、*非确定性下的实验工程*（10-417 不覆盖）、*token × quality × latency 联合资源会计*（无课覆盖）。本科生没有一门课把这四片拼起来；研究生选修也是分散的。第一章 §三 C14–C18（Harness / Sandbox / Tracing / Cache & Routing）的工程实践目前**完全没有进入本科课程**——但缺的不是"一门新 OS 课"，而是把上述四片黏合的混合工程纪律。
+- **真正的缺口**：上面四条横跨 *workflow / shell 编排语义*（15-440 不覆盖语义层）、*MAC / DIFC 安全*（18-330 不覆盖）、*非确定性下的实验工程*（10-417 不覆盖）、*token × quality × latency 联合资源会计*（无课覆盖）。本科生没有一门课把这四片拼起来；研究生选修也是分散的。§1.3 C14–C18（Harness / Sandbox / Tracing / Cache & Routing）的工程实践目前**完全没有进入本科课程**——但缺的不是"一门新 OS 课"，而是把上述四片黏合的混合工程纪律。
 - **为什么是问题**：§5.1.3 把过程与可逆性设计列为第三份残余职责；它的工程载体正是这种横跨多门课边界的纪律——而正因为它横跨边界，没有任何一门现有必修自然地承担它。
 
 ### 5.4.5 缺口五：阅读密集型工作的训练强度不足
@@ -249,7 +249,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 ### 5.4.7 缺口七：信任、责任、合规与安全的实操不足
 
 - **现有什么**：18-330 Computer Security、15-330 Introduction to Computer Security（每隔几年开一次）、17-200 Ethics and Policy Issues in Computing。
-- **缺什么**：把 **Prompt Injection（§三 P8）、AI 出错时的问责链、合规审查动作、红队演练**作为一组**实操**而非论辩的课程；以及 §5.2.2 中层列的跨学科最小整合（法律契约结构、当代 AI 治理框架）。17-200 偏伦理思辨，18-330 偏密码与系统漏洞——两者都没有覆盖 AI 时代真正的安全 / 信任工艺，跨学科一环更是空白。
+- **缺什么**：把 **Prompt Injection（§1.3 P8）、AI 出错时的问责链、合规审查动作、红队演练**作为一组**实操**而非论辩的课程；以及 §5.2.2 中层列的跨学科最小整合（法律契约结构、当代 AI 治理框架）。17-200 偏伦理思辨，18-330 偏密码与系统漏洞——两者都没有覆盖 AI 时代真正的安全 / 信任工艺，跨学科一环更是空白。
 - **为什么是问题**：§5.1.4 把信任承担列为不可让渡的第四份职责；如果毕业生不会做 prompt-injection 红队、不会写风险登记册、不知道什么时候必须 human-in-the-loop，他们就无法**作为 principal** 接管 AI 系统。
 
 ### 5.4.8 缺口八：考核与学术诚信本身需要重设计
@@ -273,7 +273,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
 | 15-122 Imperative Computation | 教 contract programming 入门 | 把 contract 提升到 spec 工程入门——为每个作业先写**机器可检的规约**（前后置、不变式、property test），并提交"如果让 agent 实现这个 spec 会有哪些歧义"的反思 | **III 为主**（建 spec / case base 的 deliberate practice）；实现部分由学生独立完成 |
 | 15-150 Functional Programming | 教 SML 与等式推理 | 引入 *spec → 多个候选实现 → 自动 verifier 择优* 的练习，对应 §1.4.3.3 第 2 点；显式加入 **QuickCheck / Hypothesis 风格的 property-based test** 教学（应对 §5.2.3 象限 II） | **III + II**：等式推理是 III，property test 是 II |
 | 15-213 CSAPP | 让学生独立实现 shell / proxy / malloc | 保留全部赤手实验**不打折**——它们是 §5.2.3 象限 III 第 1 项 "写 spec / 不变式所需 case base" 的最强训练场；额外加"在 1k+ 文件真实开源项目里完成受约束 bugfix"作业训练 §5.4.5 阅读密集 | **III 主**；开源作业部分进入 II（trace 工具链） |
-| 15-251 Great Ideas | 教逻辑、可计算、复杂度 | 加入**评测理论模块**：判别力、对抗集、benchmark 污染、judge 偏置（§三 P6）；引入 reward hacking / Goodhart 的形式化讨论；新增 **metamorphic relation 与 differential testing 的理论基础** | **II 加重**：把 象限 II 方法的数学基础落在这门课 |
+| 15-251 Great Ideas | 教逻辑、可计算、复杂度 | 加入**评测理论模块**：判别力、对抗集、benchmark 污染、judge 偏置（§1.3 P6）；引入 reward hacking / Goodhart 的形式化讨论；新增 **metamorphic relation 与 differential testing 的理论基础** | **II 加重**：把 象限 II 方法的数学基础落在这门课 |
 | 15-410 OS | 让学生扩展 Pebbles 内核 | 保留内核作业不打折（§5.2.3 象限 III 的另一最强训练场）；加一周 *harness 不是 OS* 辨析单元（§5.4.4），引入 namespaces / cgroups / `capabilities(7)` 工业用法 | **III 主**；harness 单元属 II |
 | 18-330 Computer Security | 偏密码与系统漏洞 | 引入 *mandatory information flow control / DIFC* 模块（Bell-LaPadula、SELinux、Asbestos、HiStar），并把 LLM 主体的提示注入作为其核心驱动场景；加入 **taint analysis / 符号执行** 实操 | **II**（信息流方法学）+ 象限 III 中安全的 case base |
 | 17-313 Foundations of SE | 一学期讲完需求 / 设计 / 测试 / 维护 | 拆成两门：**17-313A Spec & Eval Engineering**、**17-313B Process, Reversibility & Harness**（见 §5.5.2）| 主要 **II**（方法学）+ 三象限分类的元认知 |
@@ -294,7 +294,7 @@ AI 在有可验证奖励 (RLVR) 信号的窄域内能稳定逼近甚至超过人
    - 差分测试（multi-implementation + 旧版基线）[[18]](https://www.cs.swarthmore.edu/~bylvisa1/cs91/f15/Papers/Differential-Testing-McKeeman.pdf)；
    - 形式化验证入门（Lean / TLA+ 实操）[[19]](https://leanprover-community.github.io/)；
    - 经验复杂度回归 + counterfactual 扰动 + trace 异常聚类；
-   - 校准过的 LLM-as-judge（含偏置补偿，§三 P6 [[21, ch.1]](https://openreview.net/forum?id=3GTtZFiajM)）。
+   - 校准过的 LLM-as-judge（含偏置补偿，§1.3 P6 [[21, ch.1]](https://openreview.net/forum?id=3GTtZFiajM)）。
    配套实验：给一个开源 AI 系统设计并交付一份**可被第三方复核的 eval suite**，要求至少使用上述四种方法的组合。**关键设计**：考核要求学生**先赤手写一个有意义的 bug**（覆盖 §5.2.3 象限 III 第 1 项），再设计能逮住它的 eval——这把"写弱测试的痛"显式纳入训练；它直接回应"不会手写代码如何判断 AI 代码"这一典型疑问——这门课的答案是**学这九种方法，并用它们的组合代替逐行肉读**。
 3. **15-4xx Agent Harness Engineering**（选修）。
    定位**不是** "15-410 在新主体上的复制"——§5.4.4 已论证 harness 在抽象层级上不与 OS 同层。这门课的作用是把 15-440（编排语义）、18-330（DIFC / 信息流安全）、10-417（非确定性实验工程）、加上无课覆盖的 token×quality×latency 联合资源会计**黏合**起来。学期项目：从零搭一个**最小可用 harness** 并用它跑通一个真实 bugfix 流，交付 *spec + eval + trace + 成本 / 质量曲线*。
