@@ -213,7 +213,7 @@ Karpathy 在 2025 年末的复盘里给这条曲线一个机制性的解释 [[48
 
 #### 1.4.2.2 对比软件工程师
 
-下图把 §1.4.2.2.1 将要展开的能力**优势**轴 (A–E) 与 §1.4.2.2.2 将要展开的能力**短板**轴 (a–d) 放在同一张雷达上做主观对照。人类平均水平统一取作 5（基准锚），AI 的得分在 0–10 之间相对它浮动；前半周（A–E）多在 5 之外，后半周（a–d）多在 5 之内——这正是"锯齿"二字在工程语境里的可视化形态：
+下图把 §1.4.2.2.1 将要展开的能力**优势**轴 (A–G) 与 §1.4.2.2.2 将要展开的能力**短板**轴 (a–f) 放在同一张雷达上做主观对照。十三个轴并非凭空列出——每一条都可对应到 O\*NET（Occupational Information Network）为软件开发员（SOC 15-1252.00）整理的 Work Activities / Detailed Work Activities 之下的一条或多条 **Intermediate Work Activity (IWA)** [[52]](https://www.onetonline.org/link/summary/15-1252.00)；每个轴下方会标注其主要对应的 IWA 编号与英文标题，作为"AI 强 / 弱"判断的外部锚点，免得整张图沦为主观清单。人类平均水平统一取作 5（基准锚），AI 的得分在 0–10 之间相对它浮动；前半周（A–G）多在 5 之外，后半周（a–f）多在 5 之内——这正是"锯齿"二字在工程语境里的可视化形态：
 
 ```mermaid
 ---
@@ -223,11 +223,11 @@ config:
     showValues: false
 ---
 radar-beta
-  axis t["A 吞吐/并行"], s["B 风格一致*"], b["C 显式样板"], r["D 算法/测试/API"], v["E 扫盲/漏洞"]
-  axis p["a 长程规划"], g["b 现实 Grounding"], c["c 信任与责任"], q["d 审美品味"]
+  axis t["A 吞吐/并行"], s["B 风格一致*"], b["C 显式样板"], r["D 算法/测试/API"], v["E 扫盲/漏洞"], w["F 解释性写作"], k["G 脚手架/环境"]
+  axis p["a 长程规划"], g["b 现实 Grounding"], c["c 信任与责任"], q["d 审美品味"], n["e 需求引出"], m["f 人员协调"]
 
-  curve h["人类平均"]{5, 5, 5, 5, 5, 5, 5, 5, 5}
-  curve x["AI (2025)"]{10, 8, 9, 8, 9, 3, 2, 1, 3}
+  curve h["人类平均"]{5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5}
+  curve x["AI (2025)"]{10, 8, 9, 8, 9, 9, 9, 3, 2, 1, 3, 2, 2}
 
   max 10
   min 0
@@ -238,12 +238,15 @@ radar-beta
 > - AI（橙色多边形）的得分是基于 §2.1 / §2.2 论据的主观估计，**仅用于呈现"锯齿形状"**，不应被解读为精确测量；不同模型、不同 harness、不同领域上的具体分布会有差异。
 > - **B 风格一致**的 AI 数值取**多采样 + verifier 反馈** 配置；single-shot 模式下该轴会接近 5（详见 §1.4.2.2.1 B）。
 > - **c 信任与责任** 给到接近 0 是因为在多数法律/合规语境下这一项**结构上**无法由模型承担，与其能力强弱无关。
+> - **f 人员协调** 同样有结构性成分：AI 不是 manager / mentor 的合法主体，得分低不单是能力差。
 
-下面把这条锯齿映射到软件工程的具体维度。
+下面把这条锯齿映射到软件工程的具体维度。每个维度末尾标注它主要对应的 O\*NET IWA，方便和该职业活动分类正面对照。
 
 ##### 1.4.2.2.1 在哪些维度上 AI 已稳定超过人类平均
 
-**A. 吞吐与并行度**。生成代码的速度是人类工程师的 10²–10³ 倍，且天然并行。它的直接后果不是"代码写得更好"，而是"凡是只有在生成速度小于审阅速度时才成立的质量观，在原则上已经失效"。
+**A. 吞吐与并行度**。生成代码的速度是人类工程师的 10²–10³ 倍，且天然并行。它的直接后果不是"代码写得更好"，而是"凡是只有在生成速度小于审阅速度时才成立的质量观，在原则上已经失效"。这一项是**元属性**——它放大的不是某一条 IWA，而是下面 B–G 所对应的全部 IWA 在单位时间内的执行量。
+
+> *关联 O\*NET IWA（被加速的对象）：4.A.2.b.2.I02 *Design computer or information systems or applications*；4.A.3.b.6.I09 *Document technical designs, procedures, or activities*；4.A.3.b.1.I06 *Process digital or online data*。*
 
 **B. 风格 / 命名 / 模板的一致性（"多次生成 + 自我校对"配置下）**。
 
@@ -255,21 +258,61 @@ radar-beta
 
 由此推出对 lint / code style 工程实践的影响：以"一致性"为表面目标的传统 lint 规则、code style 守则在 single-shot 设置下不一定立刻免费，**但在配合 lint / verifier 反馈 + 多轮重生的 harness 下，会从"人类需要努力达到的目标"降格为"AI 系统的近零成本基线"**。
 
+> *关联 O\*NET IWA：4.A.2.a.3.I01 *Examine materials or documentation for accuracy or compliance*（lint / verifier 闭环的活动）；4.A.2.b.1.I07 *Edit written materials or documents*（按反馈做风格化重写）。*
+
 **C. 把 boilerplate 写得显式而非"用抽象省掉"**。模板、胶水代码、适配器、转换层这些原先被 DRY 教条压抑的"重复但显式"的代码，AI 写起来不嫌烦——你可以选择"展开 100 行显式样板"而不是"用三层抽象省 70 行"。
+
+> *关联 O\*NET IWA：4.A.2.b.2.I02 *Design computer or information systems or applications*（落到具体模块/适配层时大量样板代码的生成）。*
 
 **D. 在已有 RLVR 覆盖的窄域内逼近 / 越过人均**：算法实现、单元测试编写、API 形状契合度、跨语言机械翻译、SQL / 正则 / grep 类查询表达——这些有强反馈信号的领域里，AI 在 2025 年已稳定超过中等水平人类。
 
+> *关联 O\*NET IWA：4.A.2.a.4.I04 *Analyze scientific or applied data using mathematical principles*；4.A.2.b.4.I03 *Develop operational or technical procedures or standards*（含测试例程的发展，对应 DWA "Develop testing routines or procedures"）；4.A.1.b.2.I08 *Test performance of computer or information systems*。*
+
 **E. 跨大上下文的"扫盲式"工作（含安全漏洞挖掘）**。读完整个代码库找出所有命名违例、过期注释、死代码、未捕获异常——这种"耐心活"对人类极其昂贵，对 AI 是几乎免费的副产品。**安全漏洞发现**是这条特性的高价值延伸：在 2025 年 DARPA **AIxCC (AI Cyber Challenge)** 决赛中，一个 LLM 驱动的"All You Need Is A Fuzzing Brain"系统在真实的开源 C / Java 项目上**自主发现了 28 个安全漏洞，其中 6 个为此前未公开的 0day，并成功自动修补了 14 个** [[50]](https://arxiv.org/html/2509.07225v1)；2025 年 ACM Computing Surveys 上的综述对这一年起 LLM 在漏洞检测领域的快速成长做了系统总结 [[51]](https://dl.acm.org/doi/10.1145/3769082)。也就是说，从"代码异味扫盲"延伸到"零日漏洞挖掘"这条连续谱上，AI 正在用**耐心 + 跨上下文检索**这两项被放大到接近免费的能力，做一些**对一般人类工程师团队在经济上不划算去做**的事。
+
+> *关联 O\*NET IWA：4.A.1.a.1.I02 *Read documents or materials to inform work processes*（大规模代码阅读）；4.A.1.a.2.I10 *Monitor operation of computer or information technologies*（对应 DWA "Monitor computer system performance"）；4.A.2.b.1.I02 *Diagnose system or equipment problems*；4.A.3.b.1.I02 *Implement security measures for computer or information systems*。*
+
+**F. 解释性写作与变更说明**（PR description / ADR / 提交信息 / API 文档 / 运维手册）。
+
+把一段代码改动写成"读者半小时后能复现这次决策"的散文，对人类工程师是体力 + 自律的双重消耗：要克制 jargon、要把 trade-off 写到位、要顺手更新 README。AI 在这一项上的优势不是"写得有多漂亮"——它产出的解释经常冗长、爱列条目、爱重复——而在**单位价格逼近零**：一次提交触发一份合理的 PR 描述、一次接口改动触发一段 ADR 草稿、一次模型升级触发一份迁移指南。这让"补完文档"从一条需要纪律的约束变成默认产物，进而稀释掉历史上"代码先行、文档后补"的不对称性。但这一项有一个稳定的失效模式：模型**对自己刚改过的代码缺乏可靠的元认知**——它给出的"为什么这么改"经常是合成的，而不是对生成过程的真实回溯（与 P3 同源）。工程化用法是"AI 起草 + 人类做事实校验"，而不是"AI 单独签字"。这一项在 O\*NET 的 Software Developers DWA 列表里被独立列出（"Communicate project information to others"），但传统人类工程实践里它常常被低估为"附属劳动"——AI 的边际成本结构正好把它正名为一条独立的能力轴。
+
+> *关联 O\*NET IWA：4.A.3.b.6.I09 *Document technical designs, procedures, or activities*；4.A.4.a.2.I09 *Communicate with others about specifications or project details*（对应 DWA "Communicate project information to others" 与 "Collaborate with others to determine design specifications or details"）。*
+
+**G. 项目脚手架与本地环境配置**（repo init / CI / Dockerfile / lint 与 hook 配置 / devcontainer）。
+
+把"新建一个仓库、配好 ruff / mypy / pytest、塞一份 GitHub Actions、生成 Dockerfile、跑通第一次 CI"这一串"yak shaving"任务从小时压缩到分钟，是 2024 年以来 agentic harness 最快被工程实践验证的能力之一。这一项的特殊性在于：它本来就属于**工程师最不愿意做、但每个新项目都必须做一次**的劳动，所以"AI 把它打到接近零成本"的边际收益不是质量提升，而是**省下来的注意力可以投到非常规决策上**。一个被低估的副作用：当起脚手架的成本逼近零，"为单次实验起个新仓库"在经济上变得合理，**多 repo 并行尝试**会成为新的开发节奏，间接也加重了 §1.4.3 将讨论的"加速腐化"压力。
+
+> *关联 O\*NET IWA：4.A.3.b.1.I03 *Set up computer systems, networks, or other information systems*（对应 DWA "Coordinate software or hardware installation"）；4.A.3.b.1.I05 *Operate computer systems or computerized equipment*；4.A.3.b.1.I06 *Process digital or online data*。*
 
 ##### 1.4.2.2.2 在哪些维度上 AI 仍低于人类
 
 **a. 长程规划与架构判断**：跨多个模块、多次需求迭代、面对"模糊不完整需求"的系统性设计，仍是 AI 的弱项（参见第一章 P2）。
 
+> *关联 O\*NET IWA：4.A.2.b.2.I07 *Develop technical specifications for products or operations*（对应 DWA "Develop performance metrics or standards related to information technology"）；4.A.2.b.4.I01 *Develop organizational policies, systems, or processes*；4.A.2.a.4.I05 *Evaluate designs, specifications, or other technical data*。*
+
 **b. 现实 grounding 与约束感知**：哪些性能预算是硬约束、哪些用户痛点是真痛点、哪些"看起来可行但会踩到生产事故的边"——这类靠现场经验锚定的判断，AI 仍依赖被显式喂入而不能自发感知（参见第一章 P4）。
 
-**c. 信任与责任承担**：当一段输出需要承担后果（合规、安全、商业承诺），"人对人的问责链"仍是机器无法替代的契约基础。
+> *关联 O\*NET IWA：4.A.2.a.1.I07 *Evaluate the characteristics, usefulness, or performance of products or technologies*（对应 DWA "Assess database performance"，但泛化到"判断既有产物在真实场景下值不值"）；4.A.1.a.1.I06 *Gather data about operational or development activities*。*
+
+**c. 信任与责任承担**：当一段输出需要承担后果（合规、安全、商业承诺），"人对人的问责链"仍是机器无法替代的契约基础。这条轴上的弱不是"模型不够好"——它是**结构性**的：法律 / 合规 / 商业承诺等价的"责任主体"只能是法人或自然人。
+
+> *关联 O\*NET IWA：4.A.4.b.6.I04 *Advise others on the design or use of technologies*（对应 DWA "Provide technical support for software maintenance or use"——建议自带的合规责任）；4.A.4.b.4.I06 *Direct scientific or technical activities*（对应 DWA "Manage information technology projects or system activities" 与 "Coordinate software or hardware installation"——"署名 / 签字"环节）。*
 
 **d. 审美与品味**：哪些抽象优雅、哪些 API 设计让人愿意用十年——这类"长期可读性"上的取舍，AI 仍倾向于复述训练集里的多数派，而不能建立独立判断。
+
+> *关联 O\*NET IWA：4.A.2.a.4.I05 *Evaluate designs, specifications, or other technical data*（取舍判断的"评价"一面，与 a 长程规划同源但偏向品味维度）。*
+
+**e. 需求引出与利益相关者对话**（用户访谈 / 干系人协商 / 隐含约束发掘）。
+
+注意区分这一项与 b 现实 grounding 的边界：b 是"是否**拥有**一个与现实对齐的约束模型"；e 是"是否能通过与真人对谈**获取**这个模型"。AI 可以按脚本提问，但无法读取受访者的犹豫、回避、口误，无法在三个季度的多次例会里建立"对方愿意把不好讲的事讲出来"的信任，也很难在用户没明说的反对意见里识别"这次反对其实是上次没解决的某事的余波"。这些是 P4（现实归因）在**多轮人际过程**层面的具体表现，目前没有任何已知 harness 能直接覆盖。实践中 AI 仍可以做"访谈记录二次整理 / 跨次对话的语义检索 / 候选追问清单生成"这类**支撑工作**，但**主谈位**仍由人承担。这条轴在 O\*NET Software Developers 的 DWA 列表里没有被显式列出，但它的上游 IWA（confer with clients）正是把"程序员"与"独立顾问 / staff engineer / 产品技术领导"分开的那一层活动。
+
+> *关联 O\*NET IWA：4.A.4.a.2.I13 *Confer with clients to determine needs or order specifications*；4.A.1.a.1.I14 *Collect data about consumer needs or opinions*。*
+
+**f. 人员管理与跨职能协调**（指派工作 / 带新人 / 跨团队解决问题 / 技术领导力）。
+
+这一项与 c 信任与责任结构上同源——都来自"AI 不是法律意义上的责任主体"——但表层活动不同：c 是"为这段输出承担后果"，f 是"对其他人类的工作做出判断、并把这判断变成对方愿意接受的指令"。把一名 P5 工程师培养成 P6 的过程是一场跨越数月的反馈循环，涉及对个体特点的记忆、对成长曲线的耐心、对失败的兜底；跨团队解决一次生产事故里"哪个组应该让步"，需要的不只是技术判断，更是**组织内的信用积累**与**对历史 grievance 的察觉**。AI 在这条轴上的低分并不是模型能力的不足，而是**结构性的角色错配**：当一个人接受 AI 的"work assignment"，工作的最终责任仍要回到某位真人 manager。把 4.A.4.b.\* 这一整列"对他人工作的指挥与培养"对照过来，可以看到 O\*NET Software Developers 的 DWA 列表里实际上列出了 *Supervise information technology personnel* 和 *Teach others to use computer equipment or hardware* 两条——这是被"AI 替软件开发员"叙事经常省略的部分，但它在职业活动分解上是**显式存在**的，而且在可预见的时间窗口内不会移交给模型。
+
+> *关联 O\*NET IWA：4.A.4.b.4.I01 *Supervise personnel activities*（对应 DWA "Supervise information technology personnel"）；4.A.4.b.4.I06 *Direct scientific or technical activities*；4.A.4.b.4.I13 *Assign work to others*（对应 DWA "Assign duties or work schedules to employees"）；4.A.4.b.3.I05 *Train others to use equipment or products*（对应 DWA "Teach others to use computer equipment or hardware"）；4.A.4.a.2.I04 *Coordinate with others to resolve problems*。*
 
 ### 1.4.3 最大的变化是时间常数：SDLC 的加速 = 加速建造 + 加速腐化
 
@@ -434,3 +477,5 @@ Weng (Trinkle) 把coding agent修改heuristic（也就是手写规则和程序�
 [50] Z. Wang *et al.*, "All You Need Is A Fuzzing Brain: An LLM-Powered System for Automated Vulnerability Detection and Patching," *arXiv preprint*, arXiv:2509.07225, Sept. 2025. (DARPA AI Cyber Challenge 2025 finalist; autonomously discovered 28 vulnerabilities including 6 zero-days in real-world open-source C/Java projects and patched 14.) [Online]. Available: <https://arxiv.org/html/2509.07225v1>
 
 [51] Z. Zhang *et al.*, "LLMs in Software Security: A Survey of Vulnerability Detection Techniques and Insights," *ACM Computing Surveys*, 2025. [Online]. Available: <https://dl.acm.org/doi/10.1145/3769082>
+
+[52] U.S. Department of Labor, Employment and Training Administration, "15-1252.00 — Software Developers: Work Activities, Detailed Work Activities, and Intermediate Work Activities," *O\*NET OnLine* / *O\*NET Resource Center Data Dictionary*, current release, 2026. (本节"对比软件工程师"逐轴对照所引：18 条 Work Activities、18 条 Detailed Work Activities，及其归并到的 Intermediate Work Activities 取自 O\*NET 公开数据库。) [Online]. Available: <https://www.onetonline.org/link/summary/15-1252.00>
