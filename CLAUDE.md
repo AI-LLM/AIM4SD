@@ -11,6 +11,14 @@
 README.md                          # 目录页 + 各章 TOC（自动生成区 + 手写区）
 chapter-NN-<slug>.md               # 每章一个文件，两位数章号 + 短 slug
 scripts/update_toc.py              # TOC 重新生成脚本（无第三方依赖，Py 3.8+）
+scripts/_common.py                 # 学术数据管线共享工具（配置/查询拼装/HTTP/缓存）
+scripts/fetch_*.py                 # 四源抓取：openalex / s2 / arxiv / benchmarks
+scripts/analyze_trends.py          # 派生信号 + 判定矩阵 + 5 图（含 PNG）
+data/queries.json                  # P1–P10 检索词表（单一真相源）
+data/benchmark_map.json            # P → Epoch 基准映射
+data/*.csv, data/research-P.md     # 数据产物 + 图文（入库）
+data/figures/*.png                 # PNG 图（入库）
+data/raw/**                        # API 原始缓存（gitignore，可重抓）
 .claude/commands/update-toc.md     # 斜杠命令：/update-toc
 CLAUDE.md                          # 本文件
 ```
@@ -83,6 +91,39 @@ CLAUDE.md                          # 本文件
 - Sankey 隐藏数字：`config: sankey: showValues: false`。
 - xychart 跨多个数量级：默认线性 + 文字解释；线性差距大到一根尺子量不出时，改 log10 并在文字里注明。
 - 雷达图：人类基准恒取 5，对比对象在 0–10 间相对浮动；标注分数是主观估计、仅用于呈现形状。
+
+## 学术研究数据：收集与分析方法
+
+> 当某个论点需要"论文量随时间 / 能力随时间"的**量化背书**时（典型：判断 P1–P10 是否趋向解决），用本管线，别手凑数字。管线在 `scripts/`，产物在 `data/`，零第三方依赖（部分图的 PNG 渲染需可选 `matplotlib`，缺失则自动回退 mermaid/表格）。
+
+### 四个数据源（分两类）
+
+**三个"论文计数"源（可直接比）+ 一个"基准分数"源（不可与计数比）**：
+
+| 源 | 模态 | 覆盖 | 用途 | 端点 / 坑（已实测） |
+|---|---|---|---|---|
+| **OpenAlex** | 论文计数 | 全领域（刊+会+预印） | **计数主源** | `api.openalex.org/works?filter=title_and_abstract.search:<q>&group_by=publication_year`；免 key，**加 `mailto=` 进礼貌池**；布尔：`OR`(大写)/空格=AND/`"短语"`/`()` 均生效；只知年份的论文压到 `01-01` 假峰 |
+| **Semantic Scholar** | 论文计数 | 全领域，略窄 | 交叉验证 | `/graph/v1/paper/search/bulk?query=<q>&year=`；bulk 限流，**429 须指数退避** |
+| **arXiv** | 计数 + **全文摘要** | **仅 cs.\* 预印本** | **摘要文本挖掘**（综述/开放措辞/新基准） | **必须 https + 自定义 User-Agent**（纯 http 被拦）；调用间 `sleep 3s`；`submittedDate:[YYYYMMDD0000 TO …]` 切年 |
+| **Epoch AI** | **基准分数 over time** | 前沿模型×基准 | 能力前沿"硬"裁决 | `epoch.ai/data/benchmark_data.zip`；每基准 CSV 有 `Release date`+`mean_score`，做 **running-max** 前沿曲线 |
+
+> Papers with Code 转储已不可得（主机 TLS 失败 / HF 镜像 401）；缺口基准用各官方榜手工补，并**显式标注"无基准裁决"**。
+
+### 五条方法纪律（核心，违反则结论无效）
+
+1. **计数 ≠ 进度**。整领域 2018→2025 增长约 288×，绝对计数毫无意义——**必须用分母归一化**（分母 = LLM 总语料 `"large language model" OR LLM OR "foundation model"`），看**份额** share = P 计数 ÷ 分母。
+2. **上升、下降都有歧义**（上升＝热门未解 vs 盘子变大；下降＝已解决 vs 被放弃）→ **三角验证**：份额（OpenAlex）+ 体裁/开放措辞/新基准（arXiv 摘要）+ 基准饱和（Epoch）。三者合看才能区分"趋向解决 / 热门未解 / 被放弃"。
+3. **分清模态**：计数源之间可比（报**比值与形状**，不混用绝对数——OpenAlex×S2 实测 r≈1.00、S2≈OpenAlex 的 69%）；基准源与计数**正交**，单列。
+4. **当前年只有 YTD，分清"计数 vs 比值"**：①**绝对计数**（如总量图）当年不全，不可与整年比——要么只用到上一完整年，要么**等比折算年化并标注"假设全年均速、仅供量级"**；②**比值/份额**（分子分母同为 YTD，部分年在比值里抵消）**当前年 YTD 可直接代表全年纳入斜率**。两者别混用同一条规则。
+5. **威胁有效性必随图列出**：关键词 precision/recall、概念漂移、`01-01` 假峰、arXiv 偏 CS、探照灯效应、基准三陷阱（饱和退役=幸存者偏差 / 污染抬高 / Goodhart）。**无 ground-truth 时，"解决"一律降级为"注意力收敛"。**
+
+### 复现与产物约定
+
+- **词表是单一真相源**：改检索口径只动 `data/queries.json` / `data/benchmark_map.json`，三套 API 查询由 `_common.py` 各自拼装，不在脚本里散落硬编码词。
+- **缓存可再生、产物入库**：原始响应缓存到 `data/raw/`（**gitignore**）；入库只留结论性产物（`*_counts.csv`、`benchmark_frontier.csv`、`trends_summary.csv`、`research-P.md`、`figures/*.png`、`calibration_notes.md`）。
+- **跑法**：`fetch_openalex.py → fetch_s2.py → fetch_arxiv.py → fetch_benchmarks.py → analyze_trends.py`；缓存在则 `analyze_trends.py` 可离线重算。
+- **口径写进 `data/calibration_notes.md`**：API 布尔语义校准、精度抽查、各源偏置、YTD 折算基准日（`AS_OF`，固定值保证可复现）。
+- **结论进正文时**：引用按上文 IEEE 规范，数字标依据级别（多为"实测"），并把口径/局限放脚注或指向校准笔记——**不把"X 倍""r=0.99"这类数字裸放正文而不可回溯**。
 
 ## 目录（README）维护
 

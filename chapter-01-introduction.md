@@ -244,7 +244,17 @@ radar-beta
 
 ##### 1.4.2.2.1 在哪些维度上 AI 已稳定超过人类平均
 
-**A. 吞吐与并行度**。生成代码的速度是人类工程师的 10²–10³ 倍，且天然并行。它的直接后果不是"代码写得更好"，而是"凡是只有在生成速度小于审阅速度时才成立的质量观，在原则上已经失效"。这一项是**元属性**——它放大的不是某一条 IWA，而是下面 B–G 所对应的全部 IWA 在单位时间内的执行量。
+**A. 吞吐与并行度**（"键入式生成"层面的速度优势，且天然可并行）。
+
+先把"AI 比人快"还原到可对照的数字上：
+
+- 2025–2026 年生产环境的前沿 coder 模型典型输出速率约 **40–240 tokens/s**——Claude Sonnet 4 约 40–55、GPT-4o 约 131、Gemini 2.5 Flash 约 238 tok/s [[53]](https://www.morphllm.com/tokens-per-second)。专为代码做了 speculative decoding 的执行路径（如 Morph Fast Apply）已达到 **~10⁴ tokens/s** 量级 [[53]](https://www.morphllm.com/tokens-per-second)。
+- 同一份基准给出的人类对照：一个 100 tok/s 的模型已**约 15× 平均打字速度、约 20× 舒适阅读速度** [[53]](https://www.morphllm.com/tokens-per-second)。
+- 若再下沉一档，把人类**净工程产出**（含设计、审查、调试、协作摊入）按 *Code Complete* 等经典估算的 10–50 LOC/day 来比，AI 的原始生成速率确实比这条**净产出基线**高出 ~10²–10³ 倍——但这是**不同尺度的对照**：净产出的瓶颈从来不在打字，把"打字速度比"直接当作"工程速度比"是范畴错误。
+
+**生成速度 ≠ 工程产出**。METR 2025 年 7 月一项随机交叉实验（16 名资深开源开发者、246 项任务，平均对自家代码库有 ~5 年、~1500 提交经验）发现：允许使用 AI 反而让任务完成时长**增加 19%**，而参与者主观感受仍认为"AI 让我快了 20%" [[54]](https://arxiv.org/abs/2507.09089)。这条结果与"AI 加速 SDLC"的叙事不矛盾——它指出**加速集中在生成环节，审阅 / 整合 / 判断环节可能反向被拖慢**，净时长是两段抵消之后的结果。
+
+所以这一项更准确的含义不是"代码总产出快 10²–10³ 倍"，而是：**生成速度稳定大于审阅速度**——熟练人类的代码审阅实际吞吐约 200–500 LOC/h 量级，而 AI 在专门工况下的生成吞吐可达 ~10⁴ LOC/h，差距至少一个数量级。凡是默认"代码产出节奏 ≤ 代码审查节奏"才成立的传统质量观（"先 reviewer 看完再 merge"、"PR 控制在 400 行内"），在原则上已经失效；后续的工程实践（multi-judge / verifier / 自动 gating）正是在重建这条被穿透了的天花板。这一项是**元属性**——它放大的不是某一条 IWA，而是下面 B–G 所对应的全部 IWA 在单位时间内的执行量；至于这种放大最终能否转化为净产出，是 §1.4.3"加速建造 + 加速腐化"会展开的话题。
 
 > *关联 O\*NET IWA（被加速的对象）：4.A.2.b.2.I02 *Design computer or information systems or applications*；4.A.3.b.6.I09 *Document technical designs, procedures, or activities*；4.A.3.b.1.I06 *Process digital or online data*。*
 
@@ -479,3 +489,7 @@ Weng (Trinkle) 把coding agent修改heuristic（也就是手写规则和程序�
 [51] Z. Zhang *et al.*, "LLMs in Software Security: A Survey of Vulnerability Detection Techniques and Insights," *ACM Computing Surveys*, 2025. [Online]. Available: <https://dl.acm.org/doi/10.1145/3769082>
 
 [52] U.S. Department of Labor, Employment and Training Administration, "15-1252.00 — Software Developers: Work Activities, Detailed Work Activities, and Intermediate Work Activities," *O\*NET OnLine* / *O\*NET Resource Center Data Dictionary*, current release, 2026. (本节"对比软件工程师"逐轴对照所引：18 条 Work Activities、18 条 Detailed Work Activities，及其归并到的 Intermediate Work Activities 取自 O\*NET 公开数据库。) [Online]. Available: <https://www.onetonline.org/link/summary/15-1252.00>
+
+[53] Morph LLM, "Tokens Per Second: LLM Speed Benchmark Guide (2026)," *morphllm.com*, 2026. (Claude Sonnet 4 ~40–55 tok/s；GPT-4o ~131 tok/s；Gemini 2.5 Flash ~238 tok/s；Morph Fast Apply 经 speculative decoding 达 ~10,500 tok/s；100 tok/s ≈ 15× 平均打字速度、20× 舒适阅读速度。) [Online]. Available: <https://www.morphllm.com/tokens-per-second>
+
+[54] J. Becker, N. Rush, E. Barnes, and D. Rein, "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity," *arXiv preprint*, arXiv:2507.09089, Jul. 2025. (16 名资深开源开发者 / 246 项任务 / 自家熟悉项目随机交叉实验：允许使用 AI 反而让完成时长增加 19%，参与者主观感受仍认为"加速约 20%"。) [Online]. Available: <https://arxiv.org/abs/2507.09089>
