@@ -67,6 +67,8 @@
 > - **综述↗**：命中 `survey | a review | systematic review | position paper | we survey | an overview of | comprehensive review` 的占比，**升=领域趋成熟/开始盘点，降=仍在出新方法**。
 > - **开放语↗**：命中 `remain(s) [a|an] open/unsolved/challenging/elusive | still [a|an] open/challenging/unsolved | far from solved/being solved | open problem/challenge/question | yet to be solved/addressed | unsolved problem` 的占比，**升=领域仍自认未解，降=自认在收敛**。
 > - **新基准↗**：命中 `we introduce/propose/present/construct/build/create/develop/release …(同句内 ≤45 字符)… benchmark/dataset/evaluation suite/test set/test suite` 的占比（`…` 为同句内 ≤45 字符邻近约束），**升=还在造更难的新题**。
+>
+> **arXiv 检索条件**：每个 P 的查询 = `abs:(该 P 上列关键词) AND abs:(large language model OR LLM OR foundation model) AND (cat:cs.CL OR cat:cs.AI OR cat:cs.LG)`，按 `submittedDate` 逐年切片、每 (P,年) 按最新取 ≤150 篇（2020 年起）。故占比的**分母 = 该 (P,年) 抽样篇数（≤150），不是全部论文**。
 > 三者数值小、抖动大、仅覆盖 cs.* 预印本，**只作描述性参考**。
 
 

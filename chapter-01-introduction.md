@@ -31,6 +31,28 @@ ChatGPT (2022 末) 之后，规模化的下一词预测被证明可以涌现出�
 
 这十类问题，**没有一类可以靠"再大十倍"的模型本身解决**。这就是为什么 2023 年以后行业重心从"训更大的模型"逐步移向了"在模型外面建工程"。
 
+这一判断也有学界投入数据的直接佐证。在 OpenAlex 的 LLM 论文语料里，P1–P10 这十类问题的**相对份额（占全部 LLM 论文的比例）在 2023–2026 间无一下降、多数仍在攀升**——注意力持续涌入，而非因"已解决"而退场 [[55]](https://api.openalex.org)。arXiv 摘要的文本信号同向：综述/盘点类论文占比普遍走低，而"仍是开放问题"的措辞频率、"提出新基准"的频率多在上升，表明这些方向仍处在快速产出新方法、**远未收敛成共识**的阶段（此为关键词抽样信号，仅作趋势参考）[[57]](https://export.arxiv.org/api/query)。一句话：**这十类基础病至今仍是活跃的学术研究热点，既未被充分解决，也未形成"已解决"的共识。**
+
+下面四图给出上述判断的逐年细节（出自仓库 `data/research-P.md` 图 B、图 C；热力图中**红=升、蓝=降**，右侧条为 2023–2026 的 OLS 拟合斜率）：
+
+**① P1–P10 份额逐年变化 Δ 与拟合斜率**——10 类的 OLS 斜率**无一为负**：没有任何一类病的研究份额在持续下降。
+
+![P1–P10 份额逐年变化与 OLS 斜率](data/figures/share_delta.png)
+
+**② 综述占比逐年变化**——斜率 **0/10 为正**：综述/盘点类占比普遍下降，领域仍在快速产出新方法、远未到写综述总结的成熟期。
+
+![综述占比逐年变化](data/figures/survey_delta.png)
+
+**③ "开放问题"措辞占比逐年变化**——**9/10 为正**：摘要里"仍是开放问题"的措辞多在上升，领域仍自认未解。
+
+![开放语占比逐年变化](data/figures/open_delta.png)
+
+**④ "提出新基准"占比逐年变化**——**6/10 为正**：多数病仍在不断造更难的新基准（未饱和的信号）。
+
+![新基准占比逐年变化](data/figures/newbench_delta.png)
+
+> 说明：①为 OpenAlex 份额（硬判据）；②③④为 arXiv 摘要的关键词抽样信号（cs.\* 内、每 (P,年) ≤150 篇），数值小、抖动大，仅作趋势参考。完整口径见 [[55]](https://api.openalex.org), [[57]](https://export.arxiv.org/api/query)。
+
 ---
 
 ## 二、2022 年以后涌现的概念地图
@@ -151,6 +173,20 @@ sankey-beta
 | 8. 安全边界 | Sandboxing、Permission、Prompt injection eval、Constitutional AI | **低到中**：注入攻击仍在持续演化，是猫鼠游戏 | 提示注入是**架构性**漏洞：LLM 在内部不区分"代码"和"数据"，OWASP 已把 Prompt Injection 列为 LLM Top-10 的 #1 风险，业界共识认为现有架构下不可根治 [[32]](https://genai.owasp.org/llmrisk/llm01-prompt-injection/) |
 | 9. 训练—部署割裂 | RAG、In-context learning、轻量微调 (LoRA/PEFT)、Agent memory | **中**：把"知识"外置确实可行 | "技能"仍难外置；个性化与持续学习未真正解决——任何参数级更新都可能触发灾难性遗忘，且模型规模越大遗忘越严重 [[26]](https://arxiv.org/abs/2404.16789), [[27]](https://arxiv.org/abs/2504.01241) |
 | 10. 多智能体协调 | Orchestration、协议（A2A、MCP）、调度框架 | **低**：还在早期，多 agent 经常带来更多失败模式而非更少 | 没有公认的"多 agent 操作系统"：MAST 分类法基于 7 个主流框架的 1600+ 失败 trace 给出 14 种系统性失败模式，生产中失败率 41–86.7%，超过 4 个 agent 就出现"协调税"（coordination tax）[[33]](https://arxiv.org/abs/2503.13657) |
+
+把视角从"逐病的缓解程度"换到"学界把注意力投在哪"，账本同样指向**绕开**而非**根治**。在 OpenAlex 标题/摘要命中 `large language model / LLM / foundation model` 的 LLM 语料里（2024–2025 共 17.1 万篇、2026 YTD 另约 12.2 万篇），按关键词实测 §二各类**周边工程（C）**的研究份额 [[55]](https://api.openalex.org)：
+
+| 周边工程（"药"） | 对应概念 | 2024–2025 占比 | 2026 (YTD) 占比 |
+|---|---|---|---|
+| 微调 / PEFT / 指令微调 | C22–C26 训练侧 | **16.3%** | 12.1% |
+| Agent / 工具调用 | C10–C12 行动侧 | 11.9% | **21.3%** |
+| RAG / 检索增强 | C6–C7 上下文侧 | 6.7% | 6.7% |
+| 提示工程 / in-context learning | C1–C2 输入侧 | 4.7% | 2.8% |
+| 知识图谱 / 记忆结构 | C9 记忆工程 | 2.8% | 2.3% |
+
+> 读表说明：份额 = 命中该工程关键词的论文数 ÷ LLM 语料总数；关键词口径偏宽、互有重叠，只表征**注意力的量级与流向**，非精确计数（完整查询、各源偏置与威胁有效性见 [[55]](https://api.openalex.org)）。
+
+由此推导：单 **Agent/工具**与**微调**两类，就各自占去语料逾一成的注意力；而同期 P1–P10 没有任何一类的份额在下降——注意力仍在持续涌入，能力前沿里抗数据污染的研究级数学基准（FrontierMath）也仍停在约 50% [[56]](https://epoch.ai/data/benchmark_data.zip)。**投入年年加码，根问题原地踏步。** 份额结构还在轮动：2026 年 Agent/工具调用近乎翻倍（11.9%→21.3%），微调与提示工程回落，印证了"2025 是 agent 之年、2026 是 agent harness 之年"[[9]](https://aakashgupta.medium.com/2025-was-agents-2026-is-agent-harnesses-heres-why-that-changes-everything-073e9877655e) 的判断——但这是"换一种支架"，不是"治好器官"。
 
 一句话总结：
 
@@ -493,3 +529,9 @@ Weng (Trinkle) 把coding agent修改heuristic（也就是手写规则和程序�
 [53] Morph LLM, "Tokens Per Second: LLM Speed Benchmark Guide (2026)," *morphllm.com*, 2026. (Claude Sonnet 4 ~40–55 tok/s；GPT-4o ~131 tok/s；Gemini 2.5 Flash ~238 tok/s；Morph Fast Apply 经 speculative decoding 达 ~10,500 tok/s；100 tok/s ≈ 15× 平均打字速度、20× 舒适阅读速度。) [Online]. Available: <https://www.morphllm.com/tokens-per-second>
 
 [54] J. Becker, N. Rush, E. Barnes, and D. Rein, "Measuring the Impact of Early-2025 AI on Experienced Open-Source Developer Productivity," *arXiv preprint*, arXiv:2507.09089, Jul. 2025. (16 名资深开源开发者 / 246 项任务 / 自家熟悉项目随机交叉实验：允许使用 AI 反而让完成时长增加 19%，参与者主观感受仍认为"加速约 20%"。) [Online]. Available: <https://arxiv.org/abs/2507.09089>
+
+[55] OpenAlex, "Works API," *OpenAlex*, accessed Jun. 2026. (本书实测：标题/摘要检索 `"large language model" OR LLM OR "foundation model"` 的 LLM 语料，2024–2025 共 171,046 篇、2026 YTD 121,673 篇；各周边工程份额由 group/count 求得，关键词口径偏宽且互有重叠，仅表征注意力量级与流向；P1–P10 份额 2023–2026 无一下降。完整查询、各源偏置与威胁有效性见仓库 `data/research-P.md` 与 `data/calibration_notes.md`。) [Online]. Available: <https://api.openalex.org>
+
+[56] Epoch AI, "Benchmark Data," *epoch.ai*, accessed Jun. 2026. (各基准历代模型分数的 running-max 能力前沿曲线：MATH-Level-5/GPQA-Diamond 等老推理基准已饱和 ≥95%，而抗数据污染的 FrontierMath 仍约 52%。) [Online]. Available: <https://epoch.ai/data/benchmark_data.zip>
+
+[57] arXiv, "arXiv API," *arXiv.org*, accessed Jun. 2026. (本书实测：对 cs.CL/cs.AI/cs.LG 内、命中 LLM 口径的论文摘要做正则文本挖掘，每 (P,年) 抽样 ≤150 篇；P1–P10 的综述占比 OLS 斜率 0/10 为正、"开放问题"措辞 9/10 为正、"提出新基准"频率 6/10 为正——属关键词抽样信号，仅作趋势参考。完整口径见仓库 `data/research-P.md` 图 C 与 `data/calibration_notes.md`。) [Online]. Available: <https://export.arxiv.org/api/query>
