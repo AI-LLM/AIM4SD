@@ -13,10 +13,14 @@ chapter-NN-<slug>.md               # 每章一个文件，两位数章号 + 短 
 scripts/update_toc.py              # TOC 重新生成脚本（无第三方依赖，Py 3.8+）
 scripts/_common.py                 # 学术数据管线共享工具（配置/查询拼装/HTTP/缓存）
 scripts/fetch_*.py                 # 四源抓取：openalex / s2 / arxiv / benchmarks
-scripts/analyze_trends.py          # 派生信号 + 判定矩阵 + 5 图（含 PNG）
+scripts/analyze_trends.py          # P1–P10 派生信号 + 判定矩阵 + 5 图（含 PNG）
+scripts/fetch_frontier.py          # 前沿四题（F1–F4）抓取，平行管线、复用 _common
+scripts/analyze_frontier.py        # 前沿四题分析 → frontier_*.csv + research-frontier.md
 data/queries.json                  # P1–P10 检索词表（单一真相源）
+data/queries_frontier.json         # F1–F4 前沿四题检索词表（单一真相源）
 data/benchmark_map.json            # P → Epoch 基准映射
 data/*.csv, data/research-P.md     # 数据产物 + 图文（入库）
+data/frontier_*.csv, research-frontier.md  # 前沿四题数据产物（入库；abstracts.jsonl 同 P，gitignore）
 data/figures/*.png                 # PNG 图（入库）
 data/raw/**                        # API 原始缓存（gitignore，可重抓）
 .claude/commands/update-toc.md     # 斜杠命令：/update-toc
@@ -120,8 +124,14 @@ CLAUDE.md                          # 本文件
 ### 复现与产物约定
 
 - **词表是单一真相源**：改检索口径只动 `data/queries.json` / `data/benchmark_map.json`，三套 API 查询由 `_common.py` 各自拼装，不在脚本里散落硬编码词。
-- **缓存可再生、产物入库**：原始响应缓存到 `data/raw/`（**gitignore**）；入库只留结论性产物（`*_counts.csv`、`benchmark_frontier.csv`、`trends_summary.csv`、`research-P.md`、`figures/*.png`、`calibration_notes.md`）。
-- **跑法**：`fetch_openalex.py → fetch_s2.py → fetch_arxiv.py → fetch_benchmarks.py → analyze_trends.py`；缓存在则 `analyze_trends.py` 可离线重算。
+- **缓存可再生、产物入库**：原始响应缓存到 `data/raw/`（**gitignore**）；入库只留结论性产物（`*_counts.csv`、`benchmark_frontier.csv`、`trends_summary.csv`、`research-P.md`、`research-frontier.md`、`figures/*.png`、`calibration_notes.md`）。
+- **⚠ 原始数据必须落盘 `data/raw/`（硬性规定，不限于四源 API 管线）**：任何取数活动——四源脚本、`deep-research` / WebSearch / WebFetch 工作流、临时 `curl`、手工抓的榜单——产生的**原始响应一律完整保存到 `data/raw/<子目录>/`**，**绝不只把结论留在会话里就丢掉原始数据**。具体要求：
+  - 每个数据批次建一个自述子目录 `data/raw/<slug>/`，内附 `README.md` 写清**来源、口径、Run/Task ID、文件清单、复现命令**（范例见 `data/raw/research-frontier/`）。
+  - deep-research / 工作流类：完整保存**结构化输出 JSON + 工作流脚本 + 全部子 agent 转录（`*.jsonl`，原始 WebSearch/WebFetch 响应即在其中）**。
+  - 正文/笔记里出现的**每个数字与引用都必须能在 `data/raw/` 里回溯到原始出处**；找不回原始数据的结论不得入库。
+  - `data/raw/` 虽 gitignore，但**本机必须留存**；会话结束前确认已落盘。
+- **跑法（P1–P10）**：`fetch_openalex.py → fetch_s2.py → fetch_arxiv.py → fetch_benchmarks.py → analyze_trends.py`；缓存在则 `analyze_trends.py` 可离线重算。
+- **跑法（前沿四题 F1–F4）**：`fetch_frontier.py [openalex|s2|arxiv|all] → analyze_frontier.py`；平行管线、复用 `_common`、不污染 P 管线。与 P 的差别：这四题是部分独立于 LLM 的成熟大领域，故 OpenAlex 同时抓 **unscoped（领域全量）+ scoped（LLM 语料内交集）**，share=scoped÷LLM 分母（与 P 同尺度）；S2/arXiv 取 unscoped。**禁止用 WebSearch/deep-research 凑这类"逐年论文量"分析——只在 OpenAlex group_by 拿不到时才退而求其次。**
 - **口径写进 `data/calibration_notes.md`**：API 布尔语义校准、精度抽查、各源偏置、YTD 折算基准日（`AS_OF`，固定值保证可复现）。
 - **结论进正文时**：引用按上文 IEEE 规范，数字标依据级别（多为"实测"），并把口径/局限放脚注或指向校准笔记——**不把"X 倍""r=0.99"这类数字裸放正文而不可回溯**。
 
